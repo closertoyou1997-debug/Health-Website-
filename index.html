@@ -1,20 +1,2180 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MediCare AI — Your Personal Health Companion</title>
-    <meta name="description" content="A comprehensive healthcare and wellness platform featuring an AI health assistant, daily habit tracking, health education library, and first-aid guide." />
-    <meta property="og:title" content="MediCare AI — Your Personal Health Companion" />
-    <meta property="og:description" content="A comprehensive healthcare and wellness platform featuring an AI health assistant, daily habit tracking, health education library, and first-aid guide." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased transition-colors duration-200">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <script type="module" src="/@vite/client"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediCare AI — Your Personal Health Companion</title>
+  <meta name="description" content="A standalone, comprehensive healthcare and wellness platform featuring an AI health assistant, daily habit tracking, health education library, and first-aid guide." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#102A43',
+            'primary-light': '#1E3A5F',
+            secondary: '#0D9488',
+            'bg-soft': '#F0F7FA',
+            accent: '#67E8F9',
+            'text-slate': '#243447',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            heading: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    h1, h2, h3, .font-heading {
+      font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+    .liquid-wave {
+      transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.88; transform: scale(1.02); }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 3s ease-in-out infinite;
+    }
+  </style>
+<script src="/_aistudio-iframe.js?v=1f94f900"></script></head>
+<body class="bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- ================= TOP HEADER NAVIGATION ================= -->
+  <header class="sticky top-0 z-40 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-18">
+        
+        <!-- Logo -->
+        <button onclick="navigateTo('home')" class="flex items-center gap-3 text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded-lg p-1" aria-label="MediCare AI Home">
+          <div class="relative w-11 h-11 rounded-xl bg-gradient-to-br from-[#102A43] via-[#0D9488] to-[#67E8F9] p-0.5 shadow-md shadow-teal-500/20 group-hover:scale-105 transition-transform duration-200 flex items-center justify-center">
+            <div class="w-full h-full bg-[#102A43] rounded-[10px] flex items-center justify-center relative overflow-hidden">
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(103,232,249,0.35)_0%,transparent_70%)] animate-pulse-subtle"></div>
+              <svg class="w-6 h-6 text-white relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 4v16" stroke="#67E8F9" />
+                <path d="M4 12h16" stroke="#0D9488" />
+                <circle cx="12" cy="12" r="2.5" fill="#FFFFFF" stroke="none" />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-1.5">
+              <span class="font-heading text-xl font-bold tracking-tight text-[#102A43] dark:text-white">
+                MediCare<span class="text-[#0D9488] dark:text-[#67E8F9]">AI</span>
+              </span>
+              <span class="hidden sm:inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 rounded border border-teal-200 dark:border-teal-800 ml-1.5">
+                Companion
+              </span>
+            </div>
+            <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 hidden sm:block">
+              Health • Habits • Wellbeing
+            </p>
+          </div>
+        </button>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 p-1.5 rounded-full border border-slate-200 dark:border-slate-700/60" aria-label="Main navigation">
+          <button onclick="navigateTo('home')" id="nav-btn-home" class="nav-tab px-3.5 py-1.5 text-sm font-medium rounded-full transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Home</button>
+          <button onclick="navigateTo('assistant')" id="nav-btn-assistant" class="nav-tab px-3.5 py-1.5 text-sm font-medium rounded-full transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">AI Health Assistant</button>
+          <button onclick="navigateTo('tracker')" id="nav-btn-tracker" class="nav-tab px-3.5 py-1.5 text-sm font-medium rounded-full transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Wellness Tracker</button>
+          <button onclick="navigateTo('library')" id="nav-btn-library" class="nav-tab px-3.5 py-1.5 text-sm font-medium rounded-full transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Health Library</button>
+          <button onclick="navigateTo('reminders')" id="nav-btn-reminders" class="nav-tab px-3.5 py-1.5 text-sm font-medium rounded-full transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Reminders</button>
+          <button onclick="navigateTo('firstaid')" id="nav-btn-firstaid" class="nav-tab px-3.5 py-1.5 text-sm font-medium rounded-full transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-rose-600 dark:text-rose-400">First Aid</button>
+          <button onclick="navigateTo('about')" id="nav-btn-about" class="nav-tab px-3.5 py-1.5 text-sm font-medium rounded-full transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">About</button>
+        </nav>
+
+        <!-- Right Header Actions -->
+        <div class="flex items-center gap-2.5">
+          <!-- Direct Download HTML Button -->
+          <button onclick="downloadSelfHTML()" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 hover:bg-teal-100 dark:hover:bg-teal-900/60 border border-teal-200 dark:border-teal-800 rounded-full transition-colors cursor-pointer shadow-sm" title="Download standalone index.html file">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-teal-600 dark:text-teal-400"></i>
+            <span class="hidden sm:inline">Download HTML</span>
+          </button>
+
+          <!-- Emergency Callout Quick Trigger -->
+          <button onclick="openEmergencyModal()" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 rounded-full transition-colors cursor-pointer group shadow-sm" title="Emergency First-Aid Guidance & Hotlines">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            <i data-lucide="phone-call" class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400"></i>
+            <span class="hidden sm:inline">Emergency</span>
+          </button>
+
+          <!-- Dark / Light Mode Switcher -->
+          <button onclick="toggleTheme()" class="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors" aria-label="Toggle theme">
+            <span id="theme-icon-light" class="hidden"><i data-lucide="sun" class="w-4 h-4 text-amber-400"></i></span>
+            <span id="theme-icon-dark"><i data-lucide="moon" class="w-4 h-4 text-slate-700"></i></span>
+          </button>
+
+          <!-- Mobile Hamburger Menu Button -->
+          <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700" aria-label="Toggle menu">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-3 pb-6 space-y-1 shadow-xl">
+      <button onclick="navigateTo('home'); toggleMobileMenu()" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Home</button>
+      <button onclick="navigateTo('assistant'); toggleMobileMenu()" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">AI Health Assistant</button>
+      <button onclick="navigateTo('tracker'); toggleMobileMenu()" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Wellness Tracker</button>
+      <button onclick="navigateTo('library'); toggleMobileMenu()" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Health Library</button>
+      <button onclick="navigateTo('reminders'); toggleMobileMenu()" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Reminders</button>
+      <button onclick="navigateTo('firstaid'); toggleMobileMenu()" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 text-rose-600">First Aid Protocols</button>
+      <button onclick="navigateTo('about'); toggleMobileMenu()" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">About & Privacy</button>
+      <div class="pt-2">
+        <button onclick="openEmergencyModal(); toggleMobileMenu()" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
+          <i data-lucide="phone-call" class="w-4 h-4"></i> Call Emergency 911 / 112
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT PAGES ================= -->
+  <main class="flex-1">
+
+    <!-- PAGE 1: HOME PAGE -->
+    <section id="page-home" class="page-view space-y-16 pb-16">
+      <!-- Hero Section -->
+      <div class="relative overflow-hidden pt-8 sm:pt-14 pb-12 sm:pb-20 bg-gradient-to-b from-[#F0F7FA] via-white to-white dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 rounded-b-[2.5rem] border-b border-slate-200/80 dark:border-slate-800">
+        <div class="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-r from-teal-400/15 via-cyan-400/15 to-blue-400/10 blur-3xl -z-10 pointer-events-none rounded-full"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-800/60 shadow-sm text-xs font-semibold text-teal-800 dark:text-teal-300">
+                <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                <span>Next-Generation Healthcare Technology Demonstration</span>
+              </div>
+
+              <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#102A43] dark:text-white leading-[1.15]">
+                Your Health.{' '}
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0D9488] to-[#0284C7]">
+                  Your Habits.
+                </span><br />
+                Your Wellbeing.
+              </h1>
+
+              <p class="text-base sm:text-lg text-[#243447]/80 dark:text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                MediCare AI combines intelligent health education, evidence-based habit tracking, and responsive first-aid guidance. Build lasting wellness routines and understand your body with clarity.
+              </p>
+
+              <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2 flex-wrap">
+                <button onclick="navigateTo('assistant')" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[#102A43] via-[#0D9488] to-[#0F766E] text-white font-semibold text-sm shadow-xl shadow-teal-900/20 hover:shadow-teal-900/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2.5 cursor-pointer group">
+                  <i data-lucide="bot" class="w-5 h-5 text-[#67E8F9]"></i>
+                  <span>Chat with AI Assistant</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 text-teal-200 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+
+                <button onclick="navigateTo('tracker')" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white dark:bg-slate-800 text-[#102A43] dark:text-white font-semibold text-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/60 shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
+                  <i data-lucide="activity" class="w-4 h-4 text-teal-600 dark:text-teal-400"></i>
+                  <span>Explore Wellness Tools</span>
+                </button>
+
+                <button onclick="downloadSelfHTML()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-200 font-semibold text-sm border border-teal-200 dark:border-teal-800 hover:bg-teal-100 dark:hover:bg-teal-900/60 shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
+                  <i data-lucide="download" class="w-4 h-4 text-teal-600 dark:text-teal-400"></i>
+                  <span>Download index.html</span>
+                </button>
+              </div>
+
+              <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-500 dark:text-slate-400">
+                <div class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-teal-600 dark:text-teal-400"></i><span>Zero-tracking local storage</span></div>
+                <div class="flex items-center gap-1.5"><i data-lucide="heart-pulse" class="w-4 h-4 text-rose-500"></i><span>Evidence-based clinical guidelines</span></div>
+                <div class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i><span>Intelligent Educational Engine</span></div>
+              </div>
+            </div>
+
+            <!-- Right Interactive Health Snapshot -->
+            <div class="lg:col-span-5">
+              <div class="relative mx-auto max-w-md bg-white dark:bg-slate-800/90 rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-200/90 dark:border-slate-700/80 backdrop-blur-xl">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-700/60">
+                  <div class="flex items-center gap-2.5">
+                    <div class="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400">
+                      <i data-lucide="activity" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-sm font-bold text-slate-900 dark:text-white">Today’s Health Snapshot</h3>
+                      <p class="text-[11px] text-slate-400">Real-time daily wellness metrics</p>
+                    </div>
+                  </div>
+                  <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                    Active Today
+                  </span>
+                </div>
+
+                <div class="space-y-4 py-5">
+                  <!-- Water Progress -->
+                  <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                    <div class="flex items-center justify-between text-xs mb-1.5">
+                      <span class="font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                        <i data-lucide="droplets" class="w-3.5 h-3.5 text-cyan-500"></i> Hydration
+                      </span>
+                      <span id="home-water-stat" class="font-bold text-cyan-600 dark:text-cyan-400">6 / 8 Glasses (1.5L)</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                      <div id="home-water-bar" class="h-full bg-gradient-to-r from-cyan-400 to-teal-500 transition-all duration-500" style="width: 75%"></div>
+                    </div>
+                  </div>
+
+                  <!-- Sleep Progress -->
+                  <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                    <div class="flex items-center justify-between text-xs mb-1.5">
+                      <span class="font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                        <i data-lucide="moon" class="w-3.5 h-3.5 text-indigo-500"></i> Restorative Sleep
+                      </span>
+                      <span id="home-sleep-stat" class="font-bold text-indigo-600 dark:text-indigo-400">7.5 hrs / 8.0 hrs goal</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                      <div id="home-sleep-bar" class="h-full bg-gradient-to-r from-indigo-400 to-purple-500 transition-all duration-500" style="width: 93%"></div>
+                    </div>
+                  </div>
+
+                  <!-- Movement Progress -->
+                  <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                    <div class="flex items-center justify-between text-xs mb-1.5">
+                      <span class="font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                        <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-500"></i> Movement
+                      </span>
+                      <span id="home-exercise-stat" class="font-bold text-amber-600 dark:text-amber-400">30 min / 30 min goal</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                      <div id="home-exercise-bar" class="h-full bg-gradient-to-r from-amber-400 to-rose-500 transition-all duration-500" style="width: 100%"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <button onclick="navigateTo('tracker')" class="w-full py-2.5 rounded-xl bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/60 text-teal-800 dark:text-teal-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                  <span>Open Full Tracker & 7-Day Charts</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Core Pillars -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">Comprehensive Health Architecture</span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">Engineered for Everyday Wellness</h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Explore 4 core functional modules designed to support physical vitality, health literacy, and peace of mind.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div onclick="navigateTo('assistant')" class="group p-6 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform"><i data-lucide="bot" class="w-6 h-6"></i></div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">AI Health Assistant</h3>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">Translates confusing medical terminology, recommends sleep and nutrition habits, and detects emergency warning signs.</p>
+            </div>
+            <div class="mt-6 flex items-center text-xs font-semibold text-teal-600 dark:text-teal-400 gap-1"><span>Start Consulting</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></div>
+          </div>
+
+          <div onclick="navigateTo('tracker')" class="group p-6 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform"><i data-lucide="activity" class="w-6 h-6"></i></div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Daily Wellness Tracker</h3>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">Log water glasses, sleep duration, exercise minutes, and mood. View progress meters, 7-day trend history, and customize baseline goals.</p>
+            </div>
+            <div class="mt-6 flex items-center text-xs font-semibold text-cyan-600 dark:text-cyan-400 gap-1"><span>View Dashboard</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></div>
+          </div>
+
+          <div onclick="navigateTo('library')" class="group p-6 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform"><i data-lucide="book-open" class="w-6 h-6"></i></div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Health Education Library</h3>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">Peer-reviewed guides across 8 critical domains: circadian sleep, gut nutrition, hydration physiology, stress buffering, and hygiene protocols.</p>
+            </div>
+            <div class="mt-6 flex items-center text-xs font-semibold text-blue-600 dark:text-blue-400 gap-1"><span>Read Guides</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></div>
+          </div>
+
+          <div onclick="navigateTo('firstaid')" class="group p-6 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform"><i data-lucide="heart-pulse" class="w-6 h-6"></i></div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">First Aid & Emergency</h3>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">Step-by-step triage for respiratory distress, stroke (F.A.S.T.), heavy bleeding, Hands-Only CPR, choking, anaphylaxis, and burns.</p>
+            </div>
+            <div class="mt-6 flex items-center text-xs font-semibold text-rose-600 dark:text-rose-400 gap-1"><span>Review Procedures</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Quick Wellness Quiz -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gradient-to-br from-[#102A43] to-[#0A3D62] rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            <div class="lg:col-span-6 space-y-4">
+              <span class="text-xs font-bold uppercase tracking-wider text-[#67E8F9]">Interactive Assessment</span>
+              <h3 class="text-2xl sm:text-3xl font-bold tracking-tight">Check Your Daily Wellness Quotient</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">Answer 3 quick questions about your hydration, sleep, and physical activity today to calculate an instant demonstration wellness score.</p>
+              <div class="pt-2 flex items-center gap-3 text-xs text-slate-400">
+                <div class="flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-teal-400"></i><span>Instant calculation</span></div>
+                <div class="flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-teal-400"></i><span>100% private in browser</span></div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-6 bg-white/10 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-white/10 space-y-4">
+              <div>
+                <label class="text-xs font-semibold text-slate-200 block mb-2">1. How much water have you consumed today?</label>
+                <div class="grid grid-cols-3 gap-2" id="quiz-water-options">
+                  <button type="button" onclick="setQuizOpt('water', 1)" class="quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-white/10 text-slate-200 hover:bg-white/20">&lt; 4 glasses</button>
+                  <button type="button" onclick="setQuizOpt('water', 2)" class="quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-teal-500 text-white font-bold shadow-md shadow-teal-500/30">5-7 glasses</button>
+                  <button type="button" onclick="setQuizOpt('water', 3)" class="quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-white/10 text-slate-200 hover:bg-white/20">8+ glasses</button>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs font-semibold text-slate-200 block mb-2">2. How many hours did you sleep last night?</label>
+                <div class="grid grid-cols-3 gap-2" id="quiz-sleep-options">
+                  <button type="button" onclick="setQuizOpt('sleep', 1)" class="quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-white/10 text-slate-200 hover:bg-white/20">&lt; 6 hours</button>
+                  <button type="button" onclick="setQuizOpt('sleep', 2)" class="quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-teal-500 text-white font-bold shadow-md shadow-teal-500/30">6-7 hours</button>
+                  <button type="button" onclick="setQuizOpt('sleep', 3)" class="quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-white/10 text-slate-200 hover:bg-white/20">7-9 hours</button>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs font-semibold text-slate-200 block mb-2">3. Total moderate physical movement today?</label>
+                <div class="grid grid-cols-3 gap-2" id="quiz-activity-options">
+                  <button type="button" onclick="setQuizOpt('activity', 1)" class="quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-white/10 text-slate-200 hover:bg-white/20">&lt; 15 mins</button>
+                  <button type="button" onclick="setQuizOpt('activity', 2)" class="quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-teal-500 text-white font-bold shadow-md shadow-teal-500/30">15-30 mins</button>
+                  <button type="button" onclick="setQuizOpt('activity', 3)" class="quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-white/10 text-slate-200 hover:bg-white/20">30+ mins</button>
+                </div>
+              </div>
+
+              <div class="pt-2">
+                <div id="quiz-result-box" class="p-3.5 rounded-xl bg-teal-950/80 border border-teal-400/40 flex items-center justify-between">
+                  <div>
+                    <span class="text-[10px] text-teal-300 uppercase tracking-wider block">Estimated Wellness Quotient</span>
+                    <span id="quiz-score-val" class="text-xl font-extrabold text-white">78% — Solid Routine 👍</span>
+                  </div>
+                  <button onclick="calculateQuizScore()" class="px-3.5 py-1.5 rounded-lg bg-teal-500 text-[#102A43] font-bold text-xs uppercase hover:bg-teal-400">Recalculate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 2: AI HEALTH CHATBOT -->
+    <section id="page-assistant" class="page-view hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <div class="bg-gradient-to-r from-[#102A43] via-[#0D9488] to-[#102A43] rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shrink-0">
+            <i data-lucide="bot" class="w-8 h-8 text-[#67E8F9]"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-2xl font-bold tracking-tight">MediCare Assistant</h1>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/40 uppercase tracking-wide">
+                Evidence-Based Educational Engine
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-teal-100 mt-1 max-w-xl">
+              An evidence-based conversational companion explaining health concepts, wellness habits, and preventive care principles in simple everyday language.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <button onclick="exportChat()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-medium border border-white/15 flex items-center gap-1.5 transition-colors">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Export Chat</span>
+          </button>
+          <button onclick="resetChat()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-medium border border-white/15 flex items-center gap-1.5 transition-colors">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            <span>Reset</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Medical Disclaimer Banner -->
+      <div class="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 flex items-start gap-3">
+        <i data-lucide="shield-check" class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5"></i>
+        <div class="text-xs text-amber-900 dark:text-amber-200 leading-relaxed">
+          <span class="font-bold">Medical Notice:</span> MediCare AI provides general health education and is not a substitute for professional medical advice, diagnosis, or treatment. Never disregard medical advice or delay seeking care because of something you have read here.
+        </div>
+      </div>
+
+      <!-- Chat Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Suggested Queries -->
+        <div class="lg:col-span-4 space-y-4">
+          <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <i data-lucide="sparkles" class="w-4 h-4 text-teal-600 dark:text-teal-400"></i>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Suggested Inquiries</h3>
+            </div>
+            <div class="space-y-3">
+              <div>
+                <span class="text-[11px] font-bold text-teal-700 dark:text-teal-400 uppercase tracking-wide block mb-1">Nutrition &amp; Diet</span>
+                <button onclick="sendChatMessage('How much water should I drink daily?')" class="w-full text-left p-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-950/40 hover:text-teal-700 transition-all flex items-center justify-between">
+                  <span>How much water should I drink daily?</span><i data-lucide="arrow-right" class="w-3 h-3 text-teal-500"></i>
+                </button>
+                <button onclick="sendChatMessage('What are the essentials of a balanced diet?')" class="w-full text-left p-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-950/40 hover:text-teal-700 transition-all flex items-center justify-between">
+                  <span>What are the essentials of a balanced diet?</span><i data-lucide="arrow-right" class="w-3 h-3 text-teal-500"></i>
+                </button>
+              </div>
+
+              <div>
+                <span class="text-[11px] font-bold text-teal-700 dark:text-teal-400 uppercase tracking-wide block mb-1">Circadian Sleep</span>
+                <button onclick="sendChatMessage('Tips for better sleep hygiene and latency')" class="w-full text-left p-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-950/40 hover:text-teal-700 transition-all flex items-center justify-between">
+                  <span>Tips for better sleep hygiene and latency</span><i data-lucide="arrow-right" class="w-3 h-3 text-teal-500"></i>
+                </button>
+              </div>
+
+              <div>
+                <span class="text-[11px] font-bold text-teal-700 dark:text-teal-400 uppercase tracking-wide block mb-1">Clinical Terms</span>
+                <button onclick="sendChatMessage('Explain what blood pressure numbers mean')" class="w-full text-left p-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-950/40 hover:text-teal-700 transition-all flex items-center justify-between">
+                  <span>Explain what blood pressure numbers mean</span><i data-lucide="arrow-right" class="w-3 h-3 text-teal-500"></i>
+                </button>
+                <button onclick="sendChatMessage('Signs of heat exhaustion vs heat stroke')" class="w-full text-left p-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-950/40 hover:text-teal-700 transition-all flex items-center justify-between">
+                  <span>Signs of heat exhaustion vs heat stroke</span><i data-lucide="arrow-right" class="w-3 h-3 text-teal-500"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Stream Window -->
+        <div class="lg:col-span-8 flex flex-col h-[650px] bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+          <div id="chat-messages" class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-xs sm:text-sm">
+            <!-- Messages rendered by JS -->
+          </div>
+
+          <form onsubmit="handleChatSubmit(event)" class="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3">
+            <input type="text" id="chat-input" placeholder="Ask about hydration, sleep, blood pressure, nutrition..." class="flex-1 text-xs sm:text-sm px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500" />
+            <button type="submit" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-[#102A43] via-[#0D9488] to-[#0F766E] text-white text-xs sm:text-sm font-semibold shadow-md shadow-teal-900/20 hover:shadow-teal-900/40 transition-all flex items-center gap-2 cursor-pointer">
+              <span>Send</span>
+              <i data-lucide="send" class="w-4 h-4"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: WELLNESS TRACKER -->
+    <section id="page-tracker" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Daily Wellness Tracker</h1>
+            <span class="px-2.5 py-0.5 rounded-full bg-teal-100 dark:bg-teal-950/80 text-teal-800 dark:text-teal-300 text-xs font-semibold">Interactive Dashboard</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Log your daily hydration, sleep duration, exercise, and mood to build healthy biological habits.</p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="openGoalsModal()" class="px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm flex items-center gap-1.5 transition-colors">
+            <i data-lucide="settings" class="w-3.5 h-3.5 text-teal-600"></i><span>Customize Goals</span>
+          </button>
+          <button onclick="loadDemoWeek()" class="px-3.5 py-2 rounded-xl bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 text-xs font-semibold text-teal-800 dark:text-teal-300 hover:bg-teal-100 shadow-sm flex items-center gap-1.5 transition-colors">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-teal-600"></i><span>Load Demo Week</span>
+          </button>
+          <button onclick="resetTrackerData()" class="p-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 shadow-sm transition-colors" title="Reset entries">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Notice Banner -->
+      <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 flex items-start gap-2.5">
+        <i data-lucide="info" class="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5"></i>
+        <div>
+          <span class="font-semibold text-slate-800 dark:text-slate-200">Demonstration &amp; Guidance Notice:</span> General wellness targets are adjustable personal reference points and do not constitute individualized medical prescriptions. Data is saved locally in your browser.
+        </div>
+      </div>
+
+      <!-- 4 Logging Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Water -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2.5 rounded-2xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400"><i data-lucide="droplets" class="w-5 h-5"></i></div>
+              <span id="target-water-label" class="text-xs font-bold text-cyan-600 dark:text-cyan-400">Goal: 8 glasses</span>
+            </div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Water Intake</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Approx. 250ml per glass</p>
+
+            <div class="my-5 flex items-center justify-center">
+              <div class="relative w-28 h-32 rounded-b-3xl border-4 border-cyan-400/80 bg-cyan-50/50 dark:bg-slate-800 overflow-hidden flex flex-col justify-end shadow-inner">
+                <div id="water-glass-fill" class="w-full bg-gradient-to-t from-cyan-500 to-teal-400 transition-all duration-500 flex items-center justify-center text-white font-extrabold text-sm shadow-md" style="height: 75%">
+                  <span id="water-glass-text">6 gl</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center text-xs text-slate-600 dark:text-slate-300">
+              <span id="tracker-water-val" class="font-bold text-base text-slate-900 dark:text-white">6</span> glasses (<span id="tracker-water-liters">1.50</span> L)
+            </div>
+          </div>
+
+          <div class="mt-5 flex items-center gap-2">
+            <button onclick="changeWater(-1)" class="flex-1 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold flex items-center justify-center gap-1 text-xs">-1 Glass</button>
+            <button onclick="changeWater(1)" class="flex-1 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-bold flex items-center justify-center gap-1 text-xs shadow-sm shadow-cyan-600/30">+1 Glass</button>
+          </div>
+        </div>
+
+        <!-- Sleep -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400"><i data-lucide="moon" class="w-5 h-5"></i></div>
+              <span id="target-sleep-label" class="text-xs font-bold text-indigo-600 dark:text-indigo-400">Goal: 8.0 hrs</span>
+            </div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Restorative Sleep</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Recommended: 7 - 9 hours</p>
+
+            <div class="my-6 text-center">
+              <div class="text-4xl font-extrabold text-indigo-600 dark:text-indigo-400">
+                <span id="tracker-sleep-val">7.5</span><span class="text-base font-medium text-slate-400 ml-1">hrs</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-1">Optimal biological range ✨</p>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 block">Perceived Sleep Quality:</label>
+              <div class="grid grid-cols-3 gap-1.5" id="sleep-quality-selector">
+                <button type="button" onclick="setSleepQuality('restful')" class="sq-btn py-1.5 text-[11px] font-bold rounded-lg bg-indigo-600 text-white">Restful 🌙</button>
+                <button type="button" onclick="setSleepQuality('average')" class="sq-btn py-1.5 text-[11px] font-medium rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Average 😴</button>
+                <button type="button" onclick="setSleepQuality('restless')" class="sq-btn py-1.5 text-[11px] font-medium rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Restless 🥱</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 flex items-center gap-2">
+            <button onclick="changeSleep(-0.5)" class="flex-1 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold flex items-center justify-center gap-1 text-xs">-0.5 hr</button>
+            <button onclick="changeSleep(0.5)" class="flex-1 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold flex items-center justify-center gap-1 text-xs shadow-sm shadow-indigo-600/30">+0.5 hr</button>
+          </div>
+        </div>
+
+        <!-- Exercise -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2.5 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"><i data-lucide="flame" class="w-5 h-5"></i></div>
+              <span id="target-exercise-label" class="text-xs font-bold text-amber-600 dark:text-amber-400">Goal: 30 mins</span>
+            </div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Physical Activity</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Moderate or vigorous movement</p>
+
+            <div class="my-6 text-center">
+              <div class="text-4xl font-extrabold text-amber-500">
+                <span id="tracker-exercise-val">30</span><span class="text-base font-medium text-slate-400 ml-1">mins</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-1">Approx. ~<span id="tracker-calories">165</span> kcal expended</p>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 block">Primary Movement Type:</label>
+              <select id="tracker-exercise-type" onchange="updateExerciseType(this.value)" class="w-full text-xs px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100">
+                <option value="Brisk Walking">Brisk Walking</option>
+                <option value="Jogging / Running">Jogging / Running</option>
+                <option value="Cycling">Cycling</option>
+                <option value="Strength &amp; Resistance">Strength &amp; Resistance</option>
+                <option value="Yoga &amp; Mobility">Yoga &amp; Mobility</option>
+                <option value="Swimming">Swimming</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-5 flex items-center gap-2">
+            <button onclick="changeExercise(-10)" class="flex-1 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold flex items-center justify-center gap-1 text-xs">-10 min</button>
+            <button onclick="changeExercise(10)" class="flex-1 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold flex items-center justify-center gap-1 text-xs shadow-sm shadow-amber-500/30">+10 min</button>
+          </div>
+        </div>
+
+        <!-- Mood -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2.5 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400"><i data-lucide="smile" class="w-5 h-5"></i></div>
+              <span id="tracker-mood-label" class="text-xs font-bold text-teal-600 dark:text-teal-400 capitalize">State: Good</span>
+            </div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Daily Mood &amp; Energy</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Subjective psychological check-in</p>
+
+            <div class="grid grid-cols-5 gap-1.5 my-4" id="mood-selector-btns">
+              <button onclick="setMood('great')" class="mood-btn flex flex-col items-center p-2 rounded-2xl border text-xl border-slate-200 hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800"><span>😄</span><span class="text-[10px] mt-1 text-slate-600 dark:text-slate-300">Great</span></button>
+              <button onclick="setMood('good')" class="mood-btn flex flex-col items-center p-2 rounded-2xl border text-xl border-teal-300 bg-teal-50 dark:bg-teal-950/60 ring-2 ring-teal-500 font-bold scale-105"><span>🙂</span><span class="text-[10px] mt-1 text-slate-600 dark:text-slate-300">Good</span></button>
+              <button onclick="setMood('neutral')" class="mood-btn flex flex-col items-center p-2 rounded-2xl border text-xl border-slate-200 hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800"><span>😐</span><span class="text-[10px] mt-1 text-slate-600 dark:text-slate-300">Neutral</span></button>
+              <button onclick="setMood('low')" class="mood-btn flex flex-col items-center p-2 rounded-2xl border text-xl border-slate-200 hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800"><span>😔</span><span class="text-[10px] mt-1 text-slate-600 dark:text-slate-300">Low</span></button>
+              <button onclick="setMood('stressed')" class="mood-btn flex flex-col items-center p-2 rounded-2xl border text-xl border-slate-200 hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800"><span>😰</span><span class="text-[10px] mt-1 text-slate-600 dark:text-slate-300">Stressed</span></button>
+            </div>
+
+            <div>
+              <label class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 block mb-1">Quick Reflection / Note:</label>
+              <input type="text" id="tracker-mood-note" oninput="updateMoodNote(this.value)" placeholder="e.g. Good focus, feeling rested..." class="w-full text-xs px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-400" />
+            </div>
+          </div>
+
+          <div class="mt-5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 text-center text-[11px] text-slate-500">
+            Wellness Score for Day: <strong id="today-day-score" class="text-teal-600 dark:text-teal-400">89%</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7-Day Trend Chart -->
+      <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="trending-up" class="w-5 h-5 text-teal-600 dark:text-teal-400"></i>
+              <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">7-Day Habit Consistency &amp; Trends</h3>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Visualizing habit completion over the past 7 logged entries</p>
+          </div>
+
+          <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold" id="chart-metric-selector">
+            <button onclick="setChartMetric('score')" id="cm-score" class="cm-btn px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-teal-700 dark:text-teal-300 shadow-sm font-bold">Overall %</button>
+            <button onclick="setChartMetric('water')" id="cm-water" class="cm-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900">Water</button>
+            <button onclick="setChartMetric('sleep')" id="cm-sleep" class="cm-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900">Sleep</button>
+            <button onclick="setChartMetric('exercise')" id="cm-exercise" class="cm-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900">Exercise</button>
+          </div>
+        </div>
+
+        <div class="pt-4 pb-2">
+          <div class="grid grid-cols-7 gap-2 sm:gap-4 items-end h-56 pt-6 border-b border-slate-200 dark:border-slate-800 px-2 sm:px-6" id="trend-bars-container">
+            <!-- Dynamic 7 bars rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 4: HEALTH LIBRARY -->
+    <section id="page-library" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <div class="bg-gradient-to-r from-[#102A43] via-[#0D9488] to-[#102A43] rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Health Education Library</h1>
+            <span class="px-2.5 py-0.5 rounded-full bg-teal-400/20 text-teal-300 text-xs font-semibold border border-teal-400/30">Evidence-Based</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-200 mt-1 max-w-2xl leading-relaxed">
+            Curated, science-supported health guides covering nutrition, sleep science, hydration physiology, cardiovascular fitness, and disease prevention.
+          </p>
+        </div>
+        <div class="px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-xs flex items-center gap-2">
+          <i data-lucide="bookmark-check" class="w-4 h-4 text-[#67E8F9]"></i>
+          <span id="bookmark-counter">0 Bookmarked</span>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="space-y-4">
+        <div class="relative max-w-2xl">
+          <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+          <input type="text" id="library-search" oninput="filterLibraryArticles()" placeholder="Search guides by keyword (e.g., 'sleep', 'hypertension', 'hydration', 'fiber')..." class="w-full text-xs sm:text-sm pl-11 pr-10 py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-sm" />
+        </div>
+
+        <div class="flex items-center gap-2 overflow-x-auto pb-2" id="library-category-pills">
+          <!-- Filter buttons rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="library-cards-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- PAGE 5: REMINDERS -->
+    <section id="page-reminders" class="page-view hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <div class="bg-gradient-to-r from-[#102A43] via-[#0D9488] to-[#102A43] rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Health Reminder Center</h1>
+            <span class="px-2.5 py-0.5 rounded-full bg-teal-400/20 text-teal-300 text-xs font-semibold border border-teal-400/30">In-Website Session Alerts</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-200 mt-1 max-w-xl leading-relaxed">
+            Organize daily hydration schedules, bedtime wind-downs, physical activity prompts, and physician-prescribed medication alerts.
+          </p>
+        </div>
+
+        <button onclick="openNewReminderModal()" class="px-5 py-3 rounded-2xl bg-teal-500 hover:bg-teal-400 text-[#102A43] font-bold text-xs uppercase tracking-wider shadow-lg flex items-center gap-2 cursor-pointer transition-transform hover:scale-105">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>New Reminder</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 flex items-start gap-3">
+          <i data-lucide="info" class="w-5 h-5 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5"></i>
+          <div><span class="font-bold text-slate-800 dark:text-slate-200">In-Website Reminder Notice:</span> These reminders operate locally within your active browser session. They do not send background push notifications when the browser is closed.</div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-900 dark:text-rose-200 flex items-start gap-3">
+          <i data-lucide="shield-check" class="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5"></i>
+          <div><span class="font-bold">Medication Safeguard:</span> Reminders for medications are solely for clinician-prescribed treatments. MediCare AI never recommends drugs, alters doses, or replaces medical dispensing.</div>
+        </div>
+      </div>
+
+      <!-- Reminders List -->
+      <div class="space-y-3" id="reminders-list-container">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- PAGE 6: FIRST AID & EMERGENCY -->
+    <section id="page-firstaid" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <div class="bg-gradient-to-r from-red-600 via-rose-700 to-red-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="flex items-start gap-4">
+          <div class="p-3 bg-white/20 rounded-2xl backdrop-blur-md shrink-0">
+            <i data-lucide="alert-octagon" class="w-8 h-8 text-white animate-pulse"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">First Aid &amp; Rapid Emergency Protocols</h1>
+              <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wide">Urgent Action</span>
+            </div>
+            <p class="text-xs sm:text-sm text-rose-100 mt-1 max-w-2xl leading-relaxed">
+              Clear, step-by-step instructions for acute situations and minor injuries. Understand when to contact emergency services immediately versus when basic bystander first aid is appropriate.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="openEmergencyModal()" class="px-5 py-3 rounded-2xl bg-white text-rose-700 hover:bg-rose-50 font-bold text-xs uppercase tracking-wider shadow-lg flex items-center gap-2 cursor-pointer">
+            <i data-lucide="phone-call" class="w-4 h-4"></i>
+            <span>Call 911 / 112 Hotlines</span>
+          </button>
+          <button onclick="window.print()" class="p-3 rounded-2xl bg-white/20 hover:bg-white/30 text-white transition-colors" title="Print Emergency Guide">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rapid Triage Grid -->
+      <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-lg space-y-4">
+        <div class="flex items-center gap-2">
+          <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400"></i>
+          <h3 class="text-base font-bold tracking-tight text-white">Rapid Triage Rule: When to Call 911 Immediately</h3>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed max-w-3xl">Always call emergency services first before initiating treatment if you observe any of the following critical red flags:</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
+          <div class="p-3.5 rounded-2xl bg-rose-950/60 border border-rose-800/80 text-xs">
+            <span class="font-bold text-rose-300 block mb-1">1. Severe Breathing Distress</span>
+            <span class="text-slate-300 text-[11px]">Gasping, unable to speak, blue lips or fingertips.</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-rose-950/60 border border-rose-800/80 text-xs">
+            <span class="font-bold text-rose-300 block mb-1">2. Suspected Acute Stroke</span>
+            <span class="text-slate-300 text-[11px]">Sudden facial droop, arm weakness, slurred speech (FAST).</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-rose-950/60 border border-rose-800/80 text-xs">
+            <span class="font-bold text-rose-300 block mb-1">3. Uncontrollable Bleeding</span>
+            <span class="text-slate-300 text-[11px]">Spurting or continuous bleeding soaking through bandages.</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-rose-950/60 border border-rose-800/80 text-xs">
+            <span class="font-bold text-rose-300 block mb-1">4. Unconsciousness / Arrest</span>
+            <span class="text-slate-300 text-[11px]">Unresponsive and not breathing normally. Start CPR now.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- First Aid Accordion Cards -->
+      <div class="space-y-4" id="firstaid-cards-container">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- PAGE 7: ABOUT & PRIVACY -->
+    <section id="page-about" class="page-view hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+      <div class="bg-gradient-to-r from-[#102A43] via-[#0D9488] to-[#102A43] rounded-3xl p-6 sm:p-10 text-white shadow-xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-cyan-200">
+          <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+          <span>University Computer Science Capstone Demonstration</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">About MediCare AI — Purpose, Architecture &amp; Ethics</h1>
+        <p class="text-xs sm:text-sm text-slate-200 max-w-2xl leading-relaxed">
+          MediCare AI is a technology demonstration created to showcase how modern web engineering, responsible generative AI guardrails, and responsive client-side architectures can democratize health literacy and daily wellness habits.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2"><i data-lucide="sparkles" class="w-5 h-5 text-teal-600"></i> Project Purpose &amp; Objectives</h2>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">The objective of MediCare AI is to address three prominent challenges in digital health:</p>
+          <ul class="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+            <li class="flex items-start gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-500 shrink-0 mt-0.5"></i><span><strong>Complex Medical Terminology:</strong> Translating clinical jargon into layman-accessible language.</span></li>
+            <li class="flex items-start gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-500 shrink-0 mt-0.5"></i><span><strong>Behavioral Habit Consistency:</strong> Friction-free daily logging for hydration, sleep, exercise, and mood.</span></li>
+            <li class="flex items-start gap-2.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-500 shrink-0 mt-0.5"></i><span><strong>Emergency Triage Awareness:</strong> Ensuring users recognize acute red flags and contact emergency services.</span></li>
+          </ul>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2"><i data-lucide="cpu" class="w-5 h-5 text-cyan-600"></i> Technical Architecture &amp; Stack</h2>
+          <div class="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60 flex items-center justify-between"><span class="font-semibold">Format:</span><span class="text-slate-500">Standalone Portable Single-File HTML5</span></div>
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60 flex items-center justify-between"><span class="font-semibold">Styling:</span><span class="text-slate-500">Tailwind CSS (Deep Navy &amp; Medical Teal)</span></div>
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60 flex items-center justify-between"><span class="font-semibold">Storage Architecture:</span><span class="text-slate-500">Browser LocalStorage (Zero-tracking)</span></div>
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60 flex items-center justify-between"><span class="font-semibold">Sound Engine:</span><span class="text-slate-500">Web Audio API Synthesizer (Zero audio files)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 rounded-3xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 space-y-3">
+        <h3 class="text-base font-bold text-amber-950 dark:text-amber-200 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600"></i> Medical &amp; Clinical Boundaries</h3>
+        <p class="text-xs sm:text-sm text-amber-900 dark:text-amber-200 leading-relaxed">MediCare AI provides educational information only. It does not diagnose, prescribe medications, or replace qualified medical practitioners. Acute symptoms must always be referred to emergency services immediately.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FLOATING CHAT WIDGET ================= -->
+  <div class="fixed bottom-6 right-6 z-40">
+    <button id="floating-chat-btn" onclick="toggleFloatingChat(true)" class="group flex items-center gap-3 px-4 py-3 rounded-full bg-gradient-to-r from-[#102A43] via-[#0D9488] to-[#0B7285] text-white shadow-xl shadow-teal-900/30 hover:scale-105 active:scale-95 transition-all duration-200 border border-teal-400/40">
+      <div class="relative">
+        <i data-lucide="bot" class="w-5 h-5 text-[#67E8F9]"></i>
+        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#102A43] animate-pulse"></span>
+      </div>
+      <span class="text-sm font-semibold tracking-wide hidden sm:inline">Chat with Assistant</span>
+      <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-white/20 text-white uppercase tracking-wider">AI</span>
+    </button>
+
+    <!-- Floating Chat Drawer -->
+    <div id="floating-chat-drawer" class="hidden w-[92vw] sm:w-[410px] h-[560px] max-h-[85vh] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden">
+      <div class="px-5 py-4 bg-gradient-to-r from-[#102A43] to-[#0D9488] text-white flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center border border-white/20">
+            <i data-lucide="bot" class="w-5 h-5 text-[#67E8F9]"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h3 class="text-sm font-bold">MediCare Assistant</h3>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <p class="text-[10px] text-teal-100">Evidence-Based Companion</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1">
+          <button onclick="navigateTo('assistant'); toggleFloatingChat(false)" class="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/10" title="Expand to Page"><i data-lucide="maximize-2" class="w-3.5 h-3.5"></i></button>
+          <button onclick="toggleFloatingChat(false)" class="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+      </div>
+
+      <div class="bg-amber-50 dark:bg-amber-950/40 border-b border-amber-200 dark:border-amber-900/40 px-3.5 py-1.5 flex items-center justify-between text-[11px] text-amber-800 dark:text-amber-200">
+        <span class="truncate">General health education only. Not medical diagnosis.</span>
+        <button onclick="openEmergencyModal()" class="text-rose-600 font-bold hover:underline shrink-0 ml-2">911</button>
+      </div>
+
+      <div id="floating-chat-stream" class="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs"></div>
+
+      <form onsubmit="handleFloatingChatSubmit(event)" class="p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
+        <input type="text" id="floating-chat-input" placeholder="Ask about hydration, sleep, medical terms..." class="flex-1 text-xs px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        <button type="submit" class="p-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white cursor-pointer"><i data-lucide="send" class="w-4 h-4"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= EMERGENCY MODAL ================= -->
+  <div id="emergency-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border-2 border-rose-500 overflow-hidden">
+      <div class="bg-gradient-to-r from-rose-600 to-red-700 px-6 py-5 text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-white/20 rounded-xl"><i data-lucide="alert-octagon" class="w-6 h-6 text-white animate-bounce"></i></div>
+          <div>
+            <h3 class="text-lg font-bold">Emergency Assistance &amp; Rapid Triage</h3>
+            <p class="text-xs text-rose-100">If someone’s life is in danger, call emergency services immediately.</p>
+          </div>
+        </div>
+        <button onclick="closeEmergencyModal()" class="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="p-6 space-y-6 max-h-[80vh] overflow-y-auto text-xs">
+        <div>
+          <h4 class="font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-2"><i data-lucide="phone-call" class="w-4 h-4 text-rose-600"></i> Direct Emergency Hotlines</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="emergency-hotlines-grid">
+            <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+              <div><span class="font-semibold text-slate-700 dark:text-slate-300 block">United States &amp; Canada</span><span class="text-[11px] text-slate-500">Police, Fire, Ambulance</span></div>
+              <a href="tel:911" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold">911</a>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+              <div><span class="font-semibold text-slate-700 dark:text-slate-300 block">European Union &amp; India</span><span class="text-[11px] text-slate-500">Universal Emergency</span></div>
+              <a href="tel:112" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold">112</a>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+              <div><span class="font-semibold text-slate-700 dark:text-slate-300 block">United Kingdom</span><span class="text-[11px] text-slate-500">Emergency Dispatch</span></div>
+              <a href="tel:999" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold">999</a>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+              <div><span class="font-semibold text-slate-700 dark:text-slate-300 block">US Poison Help</span><span class="text-[11px] text-slate-500">24/7 Toxicology</span></div>
+              <a href="tel:18002221222" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-[11px]">1-800-222-1222</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60">
+          <h4 class="font-bold uppercase tracking-wider text-rose-800 dark:text-rose-300 mb-2">Call Emergency Immediately If You Notice:</h4>
+          <ul class="space-y-1 text-rose-900 dark:text-rose-200">
+            <li>• Crushing chest pain radiating to left arm, neck, or jaw.</li>
+            <li>• Sudden face drooping, one-sided arm weakness, or slurred speech (Stroke).</li>
+            <li>• Severe shortness of breath, gasping, or lips turning blue.</li>
+            <li>• Heavy uncontrolled spurting bleeding or loss of consciousness.</li>
+          </ul>
+        </div>
+
+        <div class="pt-2 flex items-center justify-between">
+          <button onclick="closeEmergencyModal(); navigateTo('firstaid')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#102A43] to-[#0D9488] text-white font-semibold">Open Step-by-Step First Aid Guides</button>
+          <button onclick="closeEmergencyModal()" class="px-4 py-2 text-slate-500 hover:text-slate-800">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ARTICLE DETAIL MODAL ================= -->
+  <div id="article-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-3xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div class="bg-gradient-to-r from-[#102A43] to-[#0D9488] p-6 sm:p-8 text-white">
+        <div class="flex items-center justify-between pb-3">
+          <span id="modal-article-category" class="text-xs font-bold uppercase tracking-wider text-cyan-300">Category • Read Time</span>
+          <button onclick="closeArticleModal()" class="p-1.5 rounded-xl text-white/80 hover:text-white hover:bg-white/10"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <h2 id="modal-article-title" class="text-xl sm:text-2xl font-bold tracking-tight">Article Title</h2>
+        <p id="modal-article-takeaway" class="text-xs sm:text-sm text-teal-100 mt-2 italic">“Key Takeaway”</p>
+      </div>
+
+      <div class="p-6 sm:p-8 space-y-6 max-h-[70vh] overflow-y-auto text-xs sm:text-sm leading-relaxed" id="modal-article-body">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="p-4 sm:p-6 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <span class="text-[11px] text-slate-400">Educational reference • Non-clinical guidance</span>
+        <button onclick="closeArticleModal()" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs">Done Reading</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CUSTOMIZE GOALS MODAL ================= -->
+  <div id="goals-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5 text-teal-600"></i> Customize Wellness Targets</h3>
+        <button onclick="closeGoalsModal()" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Daily Water Target (Glasses of 250ml):</label>
+          <input type="number" id="input-goal-water" min="4" max="16" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white" />
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Target Restful Sleep (Hours):</label>
+          <input type="number" id="input-goal-sleep" min="5" max="12" step="0.5" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white" />
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Daily Exercise Duration (Minutes):</label>
+          <input type="number" id="input-goal-exercise" min="10" max="120" step="5" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white" />
+        </div>
+      </div>
+      <div class="pt-3 flex items-center justify-end gap-2 border-t border-slate-100 dark:border-slate-800">
+        <button onclick="closeGoalsModal()" class="px-4 py-2 text-xs font-medium text-slate-600 dark:text-slate-400">Cancel</button>
+        <button onclick="saveGoals()" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold">Save Targets</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NEW REMINDER MODAL ================= -->
+  <div id="reminder-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"><i data-lucide="bell" class="w-5 h-5 text-teal-600"></i> Create New In-App Reminder</h3>
+        <button onclick="closeReminderModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form onsubmit="handleReminderFormSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Reminder Title *</label>
+          <input type="text" id="rem-input-title" required placeholder="e.g. Afternoon Water Glass, Take Evening Prescription..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Category</label>
+            <select id="rem-input-category" class="w-full px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white">
+              <option value="water">💧 Drinking Water</option>
+              <option value="activity">🔥 Physical Activity</option>
+              <option value="bedtime">🌙 Bedtime Routine</option>
+              <option value="wellness">✨ General Wellness</option>
+              <option value="medication">💊 Prescription Medication</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Scheduled Time</label>
+            <input type="time" id="rem-input-time" required value="10:00" class="w-full px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white" />
+          </div>
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Notes (Optional)</label>
+          <input type="text" id="rem-input-notes" placeholder="e.g. Drink full glass with lemon..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white" />
+        </div>
+        <div class="pt-3 flex items-center justify-end gap-2 border-t border-slate-100 dark:border-slate-800">
+          <button type="button" onclick="closeReminderModal()" class="px-4 py-2 text-slate-500">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold">Save Reminder</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= TOAST CONTAINER ================= -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-[#102A43] text-slate-300 pt-14 pb-10 border-t border-slate-800 transition-colors mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12 p-5 rounded-2xl bg-[#0B1A2A] border border-teal-500/30 shadow-inner flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-start gap-3.5">
+          <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 shrink-0"><i data-lucide="shield-alert" class="w-5 h-5"></i></div>
+          <div>
+            <h4 class="text-sm font-semibold text-white tracking-wide">Medical &amp; Clinical Responsibility Disclaimer</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mt-0.5">
+              MediCare AI is an educational computer science demonstration. It provides general health education and wellness guidance and is <strong class="text-teal-300 font-semibold">NOT</strong> a substitute for professional clinical advice, diagnosis, or treatment.
+            </p>
+          </div>
+        </div>
+        <button onclick="openEmergencyModal()" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 text-white rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer">
+          <i data-lucide="phone" class="w-3.5 h-3.5"></i> Emergency Hotlines
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800/80">
+        <div class="space-y-4">
+          <div class="flex items-center gap-2.5">
+            <span class="font-heading text-lg font-bold text-white tracking-tight">MediCare<span class="text-[#67E8F9]">AI</span></span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">Your Personal Health Companion. Standalone demonstration edition running directly in your web browser with zero tracking.</p>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-200 mb-4">Platform Features</h4>
+          <ul class="space-y-2 text-xs text-slate-400">
+            <li><button onclick="navigateTo('assistant')" class="hover:text-teal-400">MediCare Assistant</button></li>
+            <li><button onclick="navigateTo('tracker')" class="hover:text-teal-400">Daily Wellness &amp; Habit Tracker</button></li>
+            <li><button onclick="navigateTo('library')" class="hover:text-teal-400">Evidence-Based Health Library</button></li>
+            <li><button onclick="navigateTo('firstaid')" class="hover:text-rose-400">First-Aid Emergency Guides</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-200 mb-4">Core Wellness Domains</h4>
+          <ul class="space-y-2 text-xs text-slate-400">
+            <li>• Circadian Sleep Hygiene &amp; Latency</li>
+            <li>• Cellular Hydration &amp; Electrolytes</li>
+            <li>• Whole-Food Macronutrient Balance</li>
+            <li>• Daily Aerobic &amp; Resistance Movement</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-200 mb-4">Privacy Architecture</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">All habit logs and reminders remain stored strictly on your local computer storage. No data is harvested or transmitted.</p>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p>© 2026 MediCare AI. Academic Computer Science Demonstration.</p>
+        <p>Built for direct standalone browser execution</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT APPLICATION CORE ================= -->
+  <script>
+    /* ================= DATA STRUCTURES ================= */
+    const DEFAULT_GOALS = {
+      waterTarget: 8,
+      sleepTarget: 8,
+      exerciseTarget: 30
+    };
+
+    const SAMPLE_LOGS = [
+      { date: '2026-10-20', waterGlasses: 8, sleepHours: 7.5, sleepQuality: 'restful', exerciseMinutes: 45, exerciseType: 'Brisk Walking', mood: 'great', moodNote: 'Morning outdoor walk' },
+      { date: '2026-10-21', waterGlasses: 7, sleepHours: 7.0, sleepQuality: 'average', exerciseMinutes: 30, exerciseType: 'Bodyweight Fitness', mood: 'good', moodNote: 'Balanced day' },
+      { date: '2026-10-22', waterGlasses: 9, sleepHours: 8.0, sleepQuality: 'restful', exerciseMinutes: 40, exerciseType: 'Jogging', mood: 'great', moodNote: 'Good energy' },
+      { date: '2026-10-23', waterGlasses: 6, sleepHours: 6.5, sleepQuality: 'restless', exerciseMinutes: 20, exerciseType: 'Gentle Yoga', mood: 'neutral', moodNote: 'Stayed up late' },
+      { date: '2026-10-24', waterGlasses: 8, sleepHours: 8.5, sleepQuality: 'restful', exerciseMinutes: 50, exerciseType: 'Cycling outdoors', mood: 'great', moodNote: 'Park trail ride' },
+      { date: '2026-10-25', waterGlasses: 7, sleepHours: 7.5, sleepQuality: 'average', exerciseMinutes: 35, exerciseType: 'Core workout', mood: 'good', moodNote: 'Meal prep Sunday' },
+      { date: '2026-10-26', waterGlasses: 6, sleepHours: 7.5, sleepQuality: 'restful', exerciseMinutes: 30, exerciseType: 'Brisk Walking', mood: 'good', moodNote: 'Focused and productive today' }
+    ];
+
+    const DEFAULT_REMINDERS = [
+      { id: 'rem-1', title: 'Morning Hydration Kickstart', category: 'water', categoryLabel: 'Hydration', time: '08:00', frequency: 'daily', completed: true, notes: 'Drink a full 250ml glass of water upon waking up.' },
+      { id: 'rem-2', title: 'Post-Lunch Movement Break', category: 'activity', categoryLabel: 'Physical Activity', time: '13:30', frequency: 'weekdays', completed: false, notes: '10-15 minute walk to aid digestion.' },
+      { id: 'rem-3', title: 'Prescribed Allergy Tablet', category: 'medication', categoryLabel: 'Prescription Medication', time: '19:00', frequency: 'daily', completed: false, notes: 'Doctor prescription reminder: Cetirizine 10mg.', isPrescriptionMedication: true },
+      { id: 'rem-4', title: 'Digital Wind-down & Screen Off', category: 'bedtime', categoryLabel: 'Bedtime Routine', time: '22:15', frequency: 'daily', completed: false, notes: 'Put phone on Do Not Disturb 45 mins before sleep.' }
+    ];
+
+    const LIBRARY_ARTICLES = [
+      {
+        id: 'art-nutrition',
+        title: 'Principles of Balanced Nutrition: Fueling Body & Brain',
+        category: 'nutrition',
+        categoryLabel: 'Balanced Nutrition',
+        readTime: '4 min read',
+        summary: 'Understanding whole-food dietary patterns, balancing macronutrients, and sustaining stable glycemic energy.',
+        keyTakeaway: 'Prioritize colorful vegetables, lean proteins, and complex carbohydrates while moderating ultra-processed sugars.',
+        habits: ['Fill half your plate with colorful vegetables and leafy greens.', 'Incorporate a high-quality protein source in every meal.', 'Swap refined white grains for whole grains like oats or quinoa.'],
+        overview: 'Balanced nutrition is not about restrictive deprivation, but rather establishing consistent, nutrient-dense eating habits that support metabolic health, cognitive clarity, and immune stability.',
+        scienceFacts: ['Dietary fiber nourishes beneficial gut microbiota, regulating gut-brain serotonin synthesis.', 'Pairing carbs with fiber or fats slows gastric emptying, preventing blood sugar crashes.', 'Adequate protein preserves lean muscle mass and optimizes hormone synthesis.'],
+        actionPlan: ['Practice the Healthy Plate model: 50% vegetables, 25% protein, 25% fiber carbs.', 'Read ingredient labels: aim for recognizable whole-food ingredients.', 'Chew slowly: take at least 20 minutes to finish meals to trigger satiety hormones.'],
+        commonMistakes: ['Skipping meals leading to evening binge-eating.', 'Drinking hidden calories via fruit concentrates and sugary sodas.'],
+        whenToSeeDoctor: 'Consult a registered dietitian or physician if you experience unintentional rapid weight changes or chronic gastrointestinal discomfort.'
+      },
+      {
+        id: 'art-hydration',
+        title: 'The Hydration Blueprint: Maintaining Fluid & Electrolyte Balance',
+        category: 'hydration',
+        categoryLabel: 'Hydration',
+        readTime: '3 min read',
+        summary: 'How proper fluid intake regulates body temperature, joint lubrication, cognitive focus, and kidney filtration.',
+        keyTakeaway: 'Drink water consistently throughout the day; thirst is a late sign of mild dehydration.',
+        habits: ['Begin your morning with a glass of water.', 'Carry a reusable water bottle and sip between focus sessions.', 'Monitor urine color: aim for pale straw yellow rather than dark amber.'],
+        overview: 'Water accounts for roughly 60% of an adult human body. Mild dehydration (loss of just 1-2% body weight in fluid) demonstrably impairs working memory, mood, alertness, and physical endurance.',
+        scienceFacts: ['Adequate hydration facilitates the glomerular filtration rate in the kidneys.', 'Synovial fluid that cushions joints is predominantly composed of water.', 'Water intake assists dietary fiber in maintaining smooth digestive peristalsis.'],
+        actionPlan: ['Aim for roughly 30-35 ml of fluids per kilogram of body weight for healthy adults.', 'Increase intake by 250-500 ml for every 30 minutes of vigorous sweat-inducing exercise.'],
+        commonMistakes: ['Assuming thirst is the only indicator to drink.', 'Over-relying on high-sugar energy drinks that elevate heart rate.'],
+        whenToSeeDoctor: 'Seek medical care if you experience persistent excessive thirst, dark brown urine, or chronic fluid retention.'
+      },
+      {
+        id: 'art-sleep',
+        title: 'Circadian Mastery & Sleep Hygiene: The Science of Rest',
+        category: 'sleep',
+        categoryLabel: 'Sleep Hygiene',
+        readTime: '5 min read',
+        summary: 'Evidence-based strategies to optimize sleep latency, deep slow-wave sleep, and natural circadian rhythm alignment.',
+        keyTakeaway: 'Maintain a consistent wake time 7 days a week and get natural sunlight in your eyes within 60 minutes of waking.',
+        habits: ['Wake up at the same hour every day, even on weekends.', 'Get 10-15 minutes of outdoor daylight exposure every morning.', 'Eliminate blue-light screens 45-60 minutes before sleep.'],
+        overview: 'Sleep is active biological maintenance. During non-REM deep sleep, the brain activates the glymphatic system to clear metabolic waste, while REM sleep processes emotional memory and creativity.',
+        scienceFacts: ['Morning sunlight hits retinal ganglion cells, synchronizing the brain master circadian clock.', 'Blue-wavelength light from screens suppresses melatonin release by up to 50%.', 'Core body temperature naturally dips by 1-2°F during sleep onset; a cooler room facilitates this.'],
+        actionPlan: ['Reserve bed exclusively for sleep to reinforce psychological conditioning.', 'Adopt a 30-minute wind-down ritual with dim, warm lighting and light stretching.'],
+        commonMistakes: ['Attempting to "catch up" on sleep debt on weekends, causing social jetlag.', 'Consuming alcohol as a sleep aid: alcohol fragments REM sleep later in the night.'],
+        whenToSeeDoctor: 'Consult a sleep specialist if you snore loudly, wake up gasping, or experience unrefreshing sleep despite 8 hours in bed.'
+      },
+      {
+        id: 'art-activity',
+        title: 'Everyday Movement: Sustainable Physical Activity for Longevity',
+        category: 'activity',
+        categoryLabel: 'Physical Activity',
+        readTime: '4 min read',
+        summary: 'How combining aerobic fitness, resistance exercises, and daily non-exercise physical activity protects cardiovascular health.',
+        keyTakeaway: 'Aim for 150 minutes of moderate aerobic activity weekly plus 2 sessions of major muscle group strengthening.',
+        habits: ['Break up prolonged sitting every 45-60 minutes with 2 minutes of walking.', 'Walk at a brisk pace where you can talk, but not sing.', 'Include simple bodyweight squats or stair climbing throughout the day.'],
+        overview: 'Physical activity is one of the most potent lifestyle medicines. Regular exercise reduces risks of cardiovascular events, enhances insulin sensitivity, and triggers brain-derived neurotrophic factor (BDNF).',
+        scienceFacts: ['Skeletal muscles release anti-inflammatory myokines during sustained contraction.', 'Post-meal 10-minute walks dramatically attenuate postprandial glucose excursions.', 'Strength training preserves bone mineral density and posture.'],
+        actionPlan: ['Track daily steps with a realistic initial target (7,000 to 10,000 steps daily).', 'Incorporate resistance training twice weekly (push-ups, bodyweight squats, lunges).'],
+        commonMistakes: ['Adopting extreme workout regimes that cause burnout or overuse injuries within 2 weeks.', 'Believing that 45 minutes in the gym offsets 10 hours of uninterrupted static sitting.'],
+        whenToSeeDoctor: 'Always check with a physician before starting a vigorous exercise program if you have pre-existing cardiovascular conditions.'
+      },
+      {
+        id: 'art-stress',
+        title: 'Stress Resilience: Managing Cortisol & Nervous System Balance',
+        category: 'stress',
+        categoryLabel: 'Stress Management',
+        readTime: '4 min read',
+        summary: 'Practical psychological and somatic techniques to down-regulate sympathetic nervous arousal and restore calm.',
+        keyTakeaway: 'Use physiological sighs (two quick inhales through the nose, long slow exhale through the mouth) to rapidly reset heart rate.',
+        habits: ['Practice 3 minutes of slow diaphragmatic breathing when feeling overwhelmed.', 'Take regular micro-breaks away from emails and social feeds.', 'Maintain strong social bonds—confide in a trusted friend or mentor.'],
+        overview: 'Acute stress is a natural survival response. However, chronic unmitigated stress elevates circulating cortisol and inflammatory cytokines, impairing sleep, cardiovascular tone, and emotional resilience.',
+        scienceFacts: ['The vagus nerve regulates the parasympathetic "rest and digest" system; prolonged exhales stimulate vagal tone.', 'Spending 20 minutes in green nature settings measurably reduces salivary cortisol levels.'],
+        actionPlan: ['Master the Physiological Sigh: 2 nasal inhales followed by an extended audible mouth exhale. Repeat 3 times.', 'Schedule a daily "Worry Time": write down anxious thoughts for 10 minutes in the afternoon to avoid bedtime rumination.'],
+        commonMistakes: ['Suppressing emotions until they manifest as physical tension or headaches.', 'Using excess alcohol or caffeine as primary coping mechanisms.'],
+        whenToSeeDoctor: 'Consult a licensed mental health therapist or doctor if anxiety or low mood interferes with work, relationships, or daily functioning.'
+      },
+      {
+        id: 'art-preventive',
+        title: 'Preventive Healthcare: Screenings, Vitals & Health Literacy',
+        category: 'preventive',
+        categoryLabel: 'Preventive Care',
+        readTime: '5 min read',
+        summary: 'Key annual biometric screenings, knowing your numbers, vaccination schedules, and preparing for doctor visits.',
+        keyTakeaway: 'Preventive care detects emerging issues early when they are most manageable and reversible.',
+        habits: ['Schedule an annual wellness checkup with your primary care provider.', 'Know your key biometric baseline: Blood Pressure, Fasting Glucose, Lipid Profile, BMI.', 'Keep your immunization records updated.'],
+        overview: 'Preventive medicine shifts healthcare from reactive crisis management to proactive health optimization. Many chronic conditions—such as hypertension and prediabetes—have zero early symptoms.',
+        scienceFacts: ['High blood pressure is termed "the silent killer" because severe damage to vessels can occur without symptoms.', 'Early detection of cardiovascular and metabolic markers reduces mortality rates significantly.'],
+        actionPlan: ['Maintain a personal folder with past lab results and vaccination records.', 'Before clinic visits, write down your top 3 questions and a list of all supplements you take.'],
+        commonMistakes: ['Avoiding doctor visits simply because "I feel completely fine right now."', 'Self-diagnosing complex conditions using unverified internet forums.'],
+        whenToSeeDoctor: 'Visit your primary care provider annually for routine preventive assessments or sooner if you note unexplained fatigue or persistent pain.'
+      }
+    ];
+
+    const FIRST_AID_TOPICS = [
+      {
+        id: 'fa-breathing',
+        title: 'Difficulty Breathing / Respiratory Distress',
+        severity: 'critical',
+        shortDesc: 'Struggling to draw breath, wheezing, blue lips or fingertips, unable to speak full sentences.',
+        emergencyWarning: 'Severe shortness of breath is a life-threatening emergency. Call local emergency services immediately.',
+        steps: [
+          'Immediately call 911 (or 112/999/local emergency number).',
+          'Help the person sit upright in a comfortable position, slightly leaning forward with elbows on knees.',
+          'Loosen any tight clothing around the neck, chest, or waist.',
+          'If the person has prescribed rescue medication (such as an asthma inhaler), help them use it according to their plan.',
+          'Stay calm, reassure them, and do not leave them unattended while waiting for paramedics.'
+        ],
+        dos: ['DO keep the air fresh—open a window if indoors and keep crowds away.', 'DO assist with their own prescribed bronchodilator/inhaler with spacer.', 'DO monitor their responsiveness and readiness to begin CPR if breathing stops.'],
+        donts: ['DO NOT make them lie flat on their back, which worsens airway restriction.', 'DO NOT give them anything to eat or drink.', 'DO NOT administer another person medication.']
+      },
+      {
+        id: 'fa-stroke',
+        title: 'Suspected Stroke — Rapid F.A.S.T. Assessment',
+        severity: 'critical',
+        shortDesc: 'Sudden facial droop, arm weakness, slurred speech, or acute loss of vision and coordination.',
+        emergencyWarning: 'Time is brain. Stroke treatments are time-critical (within hours). Call emergency services at the first sign.',
+        steps: [
+          'Check F.A.S.T.:',
+          '• Face: Ask them to smile. Does one side of the face droop?',
+          '• Arms: Ask them to raise both arms. Does one arm drift downward?',
+          '• Speech: Ask them to repeat a simple sentence. Is speech slurred or strange?',
+          '• Time: If you observe ANY of these signs, call 911 / emergency services immediately.',
+          'Note the exact time when symptoms first began. This is vital information for the hospital stroke team.'
+        ],
+        dos: ['DO call emergency services right away; explain you suspect an acute stroke.', 'DO keep the person comfortable, lying on their side (recovery position) if they feel nauseated.', 'DO write down the precise minute symptoms began.'],
+        donts: ['DO NOT give the person aspirin, food, or water (they may choke, and some strokes are hemorrhagic).', 'DO NOT let them "sleep it off" or wait to see if it gets better.', 'DO NOT attempt to drive them yourself if an ambulance with paramedics is available.']
+      },
+      {
+        id: 'fa-bleeding',
+        title: 'Severe Bleeding & Heavy Hemorrhage',
+        severity: 'critical',
+        shortDesc: 'Pulsing or continuous heavy blood flow that quickly soaks through bandages or clothing.',
+        emergencyWarning: 'Severe, uncontrolled bleeding can lead to hypovolemic shock within minutes. Call emergency services.',
+        steps: [
+          'Call emergency services immediately if blood is spurting or does not stop after 5 minutes of firm pressure.',
+          'Protect yourself: wear clean gloves or use a clean plastic barrier if available.',
+          'Apply firm, continuous direct pressure onto the wound using a clean cloth, sterile gauze, or your hands.',
+          'If bleeding continues through the cloth, DO NOT remove it; add another layer on top and keep pressing hard.',
+          'If available and trained, apply a commercial tourniquet 2-3 inches above a limb wound (never over a joint).'
+        ],
+        dos: ['DO press directly on the exact site of bleeding with steady, continuous force.', 'DO lay the person down to reduce the risk of fainting and maintain cerebral blood flow.', 'DO keep the person warm with a blanket to prevent hypothermia.'],
+        donts: ['DO NOT remove the initial dressing if it bleeds through—layer more dressings on top.', 'DO NOT remove large embedded objects (knives, glass) from the wound; bandage securely around them.', 'DO NOT wash or rinse a severe spurting wound with running water.']
+      },
+      {
+        id: 'fa-cpr',
+        title: 'Unconsciousness & Adult CPR Basics (Hands-Only)',
+        severity: 'critical',
+        shortDesc: 'Person is unresponsive, not breathing normally, or only gasping.',
+        emergencyWarning: 'Cardiac arrest requires immediate chest compressions. Seconds count.',
+        steps: [
+          'Check scene safety, then tap the person shoulder firmly and shout: "Are you OK?"',
+          'If unresponsive and not breathing normally (or only agonal gasping):',
+          '1. Call 911 / emergency services immediately. Put the phone on speaker.',
+          '2. Send someone to find an Automated External Defibrillator (AED) if available.',
+          '3. Place the heel of one hand in the center of the chest; place your other hand on top and interlock fingers.',
+          '4. Push hard and fast in the center of the chest: 100 to 120 compressions per minute (to the beat of "Stayin Alive").',
+          '5. Compress at least 2 inches (5 cm) deep and allow the chest to recoil fully between pumps.'
+        ],
+        dos: ['DO push hard and fast continuously until emergency medical personnel take over.', 'DO switch with another bystander every 2 minutes if exhausted to maintain quality compressions.', 'DO turn on an AED as soon as it arrives and follow its spoken voice prompts.'],
+        donts: ['DO NOT hesitate: Hands-Only CPR by bystanders significantly doubles or triples survival rates.', 'DO NOT interrupt compressions for more than 10 seconds.', 'DO NOT move an injured person unless the immediate surroundings are hazardous (fire, traffic).']
+      },
+      {
+        id: 'fa-choking',
+        title: 'Adult Choking & Airway Obstruction',
+        severity: 'urgent',
+        shortDesc: 'Person cannot breathe, speak, or cough; clutching hands to throat (universal choking sign).',
+        emergencyWarning: 'If the person turns blue or loses consciousness, call 911 and begin CPR immediately.',
+        steps: [
+          'Ask: "Are you choking?" If they can speak or cough forcibly, encourage them to cough.',
+          'If they CANNOT speak, breathe, or cough effectively:',
+          '1. Stand behind the person and lean them slightly forward.',
+          '2. Give 5 sharp back blows between shoulder blades with the heel of your hand.',
+          '3. Make a fist with one hand, place thumb-side just above their navel (belly button).',
+          '4. Grasp your fist with your other hand and deliver 5 quick, upward abdominal thrusts (Heimlich maneuver).',
+          '5. Alternate 5 back blows and 5 abdominal thrusts until the object is expelled.'
+        ],
+        dos: ['DO encourage them to cough if their airway is only partially obstructed.', 'DO pull sharply inward and upward for abdominal thrusts.', 'DO call 911 immediately if the person becomes unconscious and begin chest compressions.'],
+        donts: ['DO NOT perform blind finger sweeps in the mouth—you could push the object deeper.', 'DO NOT slap a person back if they are coughing normally on their own.', 'DO NOT give them water to drink while choking.']
+      },
+      {
+        id: 'fa-burns',
+        title: 'Thermal Burns & Scalds (1st and 2nd Degree)',
+        severity: 'moderate',
+        shortDesc: 'Skin redness, swelling, burning pain, or blistering caused by hot liquids, steam, or fire.',
+        emergencyWarning: 'Call emergency services if burns cover a large area, face, hands, groin, or char skin black/white.',
+        steps: [
+          'Ensure safety and remove the heat source immediately.',
+          'Cool the burn under gentle, cool running tap water for at least 10 to 20 minutes.',
+          'Gently remove rings, watches, or tight clothing around the burn before swelling begins.',
+          'Cover loosely with a clean, non-stick sterile bandage or clean plastic wrap.'
+        ],
+        dos: ['DO use cool running water (not freezing cold) for at least 10-20 minutes.', 'DO seek medical evaluation for burns with blisters larger than 2 inches.', 'DO keep the burn clean and lightly covered.'],
+        donts: ['DO NOT apply ice or ice water—extreme cold causes further tissue necrosis.', 'DO NOT apply butter, toothpaste, oils, or home remedies to burns.', 'DO NOT burst blisters; intact blisters protect against bacterial infection.']
+      }
+    ];
+
+    /* ================= STATE MANAGEMENT ================= */
+    let currentTheme = localStorage.getItem('medicare_theme') || 'light';
+    let activeTab = 'home';
+    let goals = JSON.parse(localStorage.getItem('medicare_wellness_goals')) || DEFAULT_GOALS;
+    let logs = JSON.parse(localStorage.getItem('medicare_wellness_logs')) || SAMPLE_LOGS;
+    let reminders = JSON.parse(localStorage.getItem('medicare_health_reminders')) || DEFAULT_REMINDERS;
+    let bookmarks = JSON.parse(localStorage.getItem('medicare_bookmarked_articles')) || [];
+    let chatMessages = [
+      {
+        id: 'init-1',
+        role: 'assistant',
+        content: `Hello! I am **MediCare Assistant**, your personal health and wellness educational companion.\n\nI can explain medical terms in plain language, share evidence-based sleep and nutrition habits, suggest hydration guidelines, and discuss preventive wellness routines.\n\n⚠️ **Notice:** I provide general educational information only. I cannot diagnose illnesses, prescribe medications, or replace the care of licensed physicians. For emergencies, always call **911 / 112** immediately.\n\n*What health topic or wellness question can we explore today?*`,
+        timestamp: 'Just now'
+      }
+    ];
+    let selectedLibraryCategory = 'all';
+    let chartMetric = 'score';
+
+    // Current day log reference
+    let todayLog = logs[logs.length - 1];
+
+    /* ================= INITIALIZATION ================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      applyTheme(currentTheme);
+      initNavigation();
+      renderTodayStats();
+      renderChatMessages();
+      renderFloatingChatMessages();
+      renderTrendChart();
+      renderLibraryCategories();
+      renderLibraryArticles();
+      renderReminders();
+      renderFirstAidTopics();
+      if (window.lucide) lucide.createIcons();
+    });
+
+    /* ================= THEME TOGGLE ================= */
+    function applyTheme(theme) {
+      currentTheme = theme;
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-icon-light').classList.remove('hidden');
+        document.getElementById('theme-icon-dark').classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('theme-icon-light').classList.add('hidden');
+        document.getElementById('theme-icon-dark').classList.remove('hidden');
+      }
+      localStorage.setItem('medicare_theme', theme);
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function toggleTheme() {
+      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    }
+
+    /* ================= NAVIGATION ================= */
+    function navigateTo(tabId) {
+      activeTab = tabId;
+      document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
+      const target = document.getElementById(`page-${tabId}`);
+      if (target) target.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-tab').forEach(b => {
+        b.className = 'nav-tab px-3.5 py-1.5 text-sm font-medium rounded-full transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white';
+      });
+      const activeBtn = document.getElementById(`nav-btn-${tabId}`);
+      if (activeBtn) {
+        activeBtn.className = 'nav-tab px-3.5 py-1.5 text-sm font-medium rounded-full transition-all bg-gradient-to-r from-[#102A43] to-[#0D9488] text-white shadow-sm shadow-teal-500/20';
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function initNavigation() {
+      navigateTo('home');
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    /* ================= TOAST NOTIFICATIONS ================= */
+    function showToast(title, message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      let borderCol = 'border-teal-500';
+      if (type === 'success') borderCol = 'border-emerald-500';
+      if (type === 'warning') borderCol = 'border-amber-500';
+      if (type === 'error') borderCol = 'border-rose-500';
+
+      toast.className = `pointer-events-auto p-4 rounded-xl shadow-lg border-l-4 border bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 ${borderCol} transition-all duration-300 flex items-start justify-between gap-3`;
+      toast.innerHTML = `
+        <div>
+          <h4 class="text-sm font-semibold leading-tight">${title}</h4>
+          <p class="text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">${message}</p>
+        </div>
+        <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-600 p-1">&times;</button>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        if (toast.parentElement) toast.remove();
+      }, 4500);
+    }
+
+    /* ================= SOUND ENGINE (WEB AUDIO API) ================= */
+    function playChime() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.5);
+      } catch (e) {
+        console.log('Audio chime unavailable', e);
+      }
+    }
+
+    /* ================= MODALS ================= */
+    function openEmergencyModal() {
+      document.getElementById('emergency-modal').classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+    function closeEmergencyModal() {
+      document.getElementById('emergency-modal').classList.add('hidden');
+    }
+
+    function openGoalsModal() {
+      document.getElementById('input-goal-water').value = goals.waterTarget;
+      document.getElementById('input-goal-sleep').value = goals.sleepTarget;
+      document.getElementById('input-goal-exercise').value = goals.exerciseTarget;
+      document.getElementById('goals-modal').classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+    function closeGoalsModal() {
+      document.getElementById('goals-modal').classList.add('hidden');
+    }
+    function saveGoals() {
+      goals.waterTarget = parseInt(document.getElementById('input-goal-water').value) || 8;
+      goals.sleepTarget = parseFloat(document.getElementById('input-goal-sleep').value) || 8;
+      goals.exerciseTarget = parseInt(document.getElementById('input-goal-exercise').value) || 30;
+      localStorage.setItem('medicare_wellness_goals', JSON.stringify(goals));
+      closeGoalsModal();
+      renderTodayStats();
+      renderTrendChart();
+      showToast('Targets Updated', 'Personal daily wellness targets have been saved.', 'success');
+    }
+
+    function openNewReminderModal() {
+      document.getElementById('rem-input-title').value = '';
+      document.getElementById('rem-input-notes').value = '';
+      document.getElementById('reminder-modal').classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+    function closeReminderModal() {
+      document.getElementById('reminder-modal').classList.add('hidden');
+    }
+
+    function openArticleModal(articleId) {
+      const art = LIBRARY_ARTICLES.find(a => a.id === articleId);
+      if (!art) return;
+      document.getElementById('modal-article-category').textContent = `${art.categoryLabel} • ${art.readTime}`;
+      document.getElementById('modal-article-title').textContent = art.title;
+      document.getElementById('modal-article-takeaway').textContent = `“${art.keyTakeaway}”`;
+
+      const body = document.getElementById('modal-article-body');
+      body.innerHTML = `
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 mb-2">Clinical & Biological Context</h4>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed">${art.overview}</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900/60 space-y-2">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-teal-900 dark:text-teal-200">Key Scientific Findings:</h4>
+          <ul class="space-y-1 text-xs text-teal-950 dark:text-teal-200">
+            ${art.scienceFacts.map(f => `<li>• ${f}</li>`).join('')}
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-2">Practical Action Plan:</h4>
+          <ul class="space-y-1 text-xs text-slate-600 dark:text-slate-300">
+            ${art.actionPlan.map(a => `<li>✓ ${a}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
+          <span class="font-bold text-slate-900 dark:text-white block mb-1">When to Seek Professional Medical Care:</span>
+          <p class="text-slate-600 dark:text-slate-300">${art.whenToSeeDoctor}</p>
+        </div>
+      `;
+      document.getElementById('article-modal').classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+    function closeArticleModal() {
+      document.getElementById('article-modal').classList.add('hidden');
+    }
+
+    /* ================= OFFLINE CLINICAL KNOWLEDGE ENGINE ================= */
+    function generateAssistantResponse(query) {
+      const emergencyRegex = /\b(chest pain|heart attack|can't breathe|cannot breathe|severe bleeding|stroke|facial droop|slurred speech|anaphylaxis|unconscious|passed out|suicide|overdose)\b/i;
+      if (emergencyRegex.test(query)) {
+        return {
+          isEmergency: true,
+          text: `⚠️ **EMERGENCY ADVISORY:** The symptoms you described may require immediate medical attention.\n\nPlease immediately call **911** (US/Canada), **112** (Europe), **999** (UK), or proceed to the nearest emergency department. Do not wait for an online assessment.`
+        };
+      }
+
+      if (/water|hydrat/i.test(query)) {
+        return {
+          isEmergency: false,
+          text: `Staying properly hydrated is essential for cellular function, energy levels, and kidney health.\n\n• **General guideline:** Most healthy adults benefit from roughly 2 to 2.5 liters (8-10 glasses) of fluids daily, adjusted for climate, exercise, and body size.\n• **Helpful tip:** Check your urine color—pale straw yellow usually indicates good hydration.\n• **Healthy habit:** Keep a reusable water bottle within arm's reach and drink a glass upon waking.\n\n*Disclaimer: MediCare AI provides general wellness education. For specific fluid intake targets (such as if you have kidney or heart conditions), consult your physician.*`
+        };
+      }
+
+      if (/sleep|insomnia|tired|circadian|rest/i.test(query)) {
+        return {
+          isEmergency: false,
+          text: `Quality sleep is foundational for immune resilience, mental clarity, and metabolic health.\n\n• **Sleep Duration:** Aim for 7 to 9 hours of restorative sleep per night.\n• **Sleep Hygiene Protocol:**\n  1. Maintain a fixed wake-up and sleep schedule, even on weekends.\n  2. Dim screens and switch to warm night mode at least 60 minutes before bed.\n  3. Keep the bedroom cool (around 65-68°F / 18-20°C), dark, and quiet.\n  4. Avoid caffeine at least 6 hours prior to bedtime.\n\n*Disclaimer: MediCare AI is an educational tool. Persistent sleep disturbances should be assessed by a healthcare professional.*`
+        };
+      }
+
+      if (/blood pressure|hypertension|systolic|diastolic/i.test(query)) {
+        return {
+          isEmergency: false,
+          text: `Blood pressure measures the force your circulating blood exerts against arterial walls.\n\n• **Systolic (Top number):** Measures pressure when your heart beats.\n• **Diastolic (Bottom number):** Measures pressure when your heart rests between beats.\n• **Standard Guidelines:**\n  - Normal: Under 120/80 mmHg.\n  - Elevated: 120-129 / <80 mmHg.\n  - Stage 1 Hypertension: 130-139 / 80-89 mmHg.\n\n*Lifestyle Support: Regular aerobic movement, a diet rich in potassium and low in excess sodium, quality sleep, and stress reduction help maintain healthy blood pressure. Always review your readings with your doctor.*`
+        };
+      }
+
+      if (/food|diet|nutrition|eat|fiber|protein|weight/i.test(query)) {
+        return {
+          isEmergency: false,
+          text: `Balanced nutrition is about building consistent, nutrient-dense eating patterns:\n\n• **The Healthy Plate Model:** Fill 50% with colorful vegetables and fruits, 25% with lean protein (legumes, poultry, tofu, fish), and 25% with complex whole grains (oats, brown rice, quinoa).\n• **Dietary Fiber:** Aim for 25-35 grams daily from beans, berries, and vegetables to feed beneficial gut microbiota.\n• **Mindful Eating:** Chew slowly and drink water throughout the day rather than sugary juices or sodas.\n\n*Disclaimer: MediCare AI provides general wellness education. Consult a registered dietitian or doctor for personalized nutritional therapy.*`
+        };
+      }
+
+      if (/exercise|workout|walk|movement|steps|fitness/i.test(query)) {
+        return {
+          isEmergency: false,
+          text: `Physical activity is one of the most powerful longevity interventions available:\n\n• **Aerobic Benchmark:** 150 minutes of moderate aerobic activity (e.g. brisk walking where you can speak but not sing) or 75 minutes of vigorous exercise weekly.\n• **Strength Training:** Engage in resistance or bodyweight exercises 2 days per week for major muscle groups.\n• **Break Sitting:** Stand or walk for 2 minutes for every 45-60 minutes of desk work to preserve insulin sensitivity.\n\n*Disclaimer: Always check with your healthcare provider before initiating new intense workout programs.*`
+        };
+      }
+
+      return {
+        isEmergency: false,
+        text: `Thank you for consulting MediCare Assistant!\n\nMaintaining optimal health involves consistent daily habits:\n• **Nutrition:** Focus on whole foods, diverse vegetables, quality proteins, and fiber.\n• **Hydration:** Aim for 8 glasses of clean water throughout the day.\n• **Movement:** 30 minutes of moderate physical activity supports heart and metabolic health.\n• **Recovery:** 7-9 hours of consistent sleep and proactive stress management.\n\n*Reminder: MediCare AI offers general health education and does not replace medical advice, diagnosis, or clinician care.*`
+      };
+    }
+
+    /* ================= AI CHAT ASSISTANT LOGIC ================= */
+    async function sendChatMessage(text) {
+      if (!text || !text.trim()) return;
+      const userMsg = {
+        id: 'msg-' + Date.now(),
+        role: 'user',
+        content: text.trim(),
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      chatMessages.push(userMsg);
+      renderChatMessages();
+      renderFloatingChatMessages();
+
+      // Check if online server endpoint is reachable, otherwise use offline knowledge engine
+      let replyData;
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text.trim() })
+        });
+        if (response.ok) {
+          replyData = await response.json();
+        } else {
+          replyData = generateAssistantResponse(text.trim());
+        }
+      } catch (err) {
+        replyData = generateAssistantResponse(text.trim());
+      }
+
+      const botMsg = {
+        id: 'bot-' + Date.now(),
+        role: 'assistant',
+        content: replyData.text,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        isEmergency: replyData.isEmergency
+      };
+      chatMessages.push(botMsg);
+      renderChatMessages();
+      renderFloatingChatMessages();
+
+      if (replyData.isEmergency) {
+        showToast('Emergency Advisory Triggered', 'Critical symptoms noted. Please call emergency services if urgent.', 'warning');
+      }
+    }
+
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const val = input.value;
+      input.value = '';
+      sendChatMessage(val);
+    }
+
+    function handleFloatingChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('floating-chat-input');
+      const val = input.value;
+      input.value = '';
+      sendChatMessage(val);
+    }
+
+    function renderChatMessages() {
+      const container = document.getElementById('chat-messages');
+      if (!container) return;
+      container.innerHTML = chatMessages.map(m => {
+        const isUser = m.role === 'user';
+        const bg = isUser
+          ? 'bg-gradient-to-r from-[#102A43] to-[#0D9488] text-white rounded-tr-none'
+          : m.isEmergency
+          ? 'bg-rose-50 dark:bg-rose-950/70 border-2 border-rose-400 text-rose-950 dark:text-rose-100 rounded-tl-none'
+          : 'bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-none border border-slate-200 dark:border-slate-700';
+
+        return `
+          <div class="flex flex-col ${isUser ? 'items-end' : 'items-start'}">
+            <span class="text-[10px] text-slate-400 mb-1 px-1">${isUser ? 'You' : 'MediCare Assistant'} • ${m.timestamp}</span>
+            <div class="max-w-[85%] rounded-2xl p-4 shadow-sm ${bg} leading-relaxed">
+              <div class="whitespace-pre-wrap">${m.content}</div>
+              ${!isUser ? `
+                <div class="mt-2.5 pt-2 border-t border-slate-200/50 flex items-center justify-between text-[11px] text-slate-400">
+                  <span class="text-teal-600 dark:text-teal-400 font-medium">Educational Engine</span>
+                  <div class="flex items-center gap-2">
+                    <button onclick="speakText('${m.id}')" class="hover:text-slate-700 dark:hover:text-white" title="Read Aloud">🔊</button>
+                    <button onclick="copyMsg('${m.id}')" class="hover:text-slate-700 dark:hover:text-white" title="Copy Text">📋</button>
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function renderFloatingChatMessages() {
+      const container = document.getElementById('floating-chat-stream');
+      if (!container) return;
+      container.innerHTML = chatMessages.map(m => {
+        const isUser = m.role === 'user';
+        return `
+          <div class="flex flex-col ${isUser ? 'items-end' : 'items-start'}">
+            <div class="max-w-[88%] rounded-2xl p-3 shadow-sm ${isUser ? 'bg-gradient-to-r from-[#102A43] to-[#0D9488] text-white rounded-tr-none' : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-none'} whitespace-pre-wrap">
+              ${m.content}
+            </div>
+          </div>
+        `;
+      }).join('');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function toggleFloatingChat(open) {
+      const drawer = document.getElementById('floating-chat-drawer');
+      const btn = document.getElementById('floating-chat-btn');
+      if (open) {
+        drawer.classList.remove('hidden');
+        btn.classList.add('hidden');
+      } else {
+        drawer.classList.add('hidden');
+        btn.classList.remove('hidden');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function resetChat() {
+      chatMessages = [chatMessages[0]];
+      renderChatMessages();
+      renderFloatingChatMessages();
+      showToast('Chat Cleared', 'Conversation session restarted.', 'info');
+    }
+
+    function exportChat() {
+      const formatted = chatMessages.map(m => `[${m.timestamp}] ${m.role.toUpperCase()}:\n${m.content}\n`).join('\n---\n\n');
+      const blob = new Blob([formatted], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `medicare-chat-${new Date().toISOString().slice(0, 10)}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Exported', 'Chat transcript downloaded.', 'success');
+    }
+
+    function copyMsg(msgId) {
+      const msg = chatMessages.find(m => m.id === msgId);
+      if (msg) {
+        navigator.clipboard.writeText(msg.content);
+        showToast('Copied', 'Response copied to clipboard.', 'success');
+      }
+    }
+
+    function speakText(msgId) {
+      if (!('speechSynthesis' in window)) {
+        showToast('Speech Unavailable', 'Browser does not support Web Speech.', 'info');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const msg = chatMessages.find(m => m.id === msgId);
+      if (!msg) return;
+      const clean = msg.content.replace(/[*#_~`]/g, '');
+      const u = new SpeechSynthesisUtterance(clean);
+      window.speechSynthesis.speak(u);
+    }
+
+    /* ================= WELLNESS TRACKER LOGIC ================= */
+    function renderTodayStats() {
+      // Water
+      const waterVal = todayLog.waterGlasses;
+      const waterPct = Math.min(100, Math.round((waterVal / goals.waterTarget) * 100));
+      document.getElementById('tracker-water-val').textContent = waterVal;
+      document.getElementById('tracker-water-liters').textContent = ((waterVal * 250) / 1000).toFixed(2);
+      document.getElementById('water-glass-fill').style.height = `${waterPct}%`;
+      document.getElementById('water-glass-text').textContent = waterVal > 0 ? `${waterVal} gl` : '';
+      document.getElementById('target-water-label').textContent = `Goal: ${goals.waterTarget} glasses`;
+
+      // Home stats mirror
+      document.getElementById('home-water-stat').textContent = `${waterVal} / ${goals.waterTarget} Glasses (${((waterVal * 250) / 1000).toFixed(1)}L)`;
+      document.getElementById('home-water-bar').style.width = `${waterPct}%`;
+
+      // Sleep
+      const sleepVal = todayLog.sleepHours;
+      const sleepPct = Math.min(100, Math.round((sleepVal / goals.sleepTarget) * 100));
+      document.getElementById('tracker-sleep-val').textContent = sleepVal;
+      document.getElementById('target-sleep-label').textContent = `Goal: ${goals.sleepTarget} hrs`;
+      document.getElementById('home-sleep-stat').textContent = `${sleepVal} hrs / ${goals.sleepTarget} hrs goal`;
+      document.getElementById('home-sleep-bar').style.width = `${sleepPct}%`;
+
+      // Exercise
+      const exVal = todayLog.exerciseMinutes;
+      const exPct = Math.min(100, Math.round((exVal / goals.exerciseTarget) * 100));
+      document.getElementById('tracker-exercise-val').textContent = exVal;
+      document.getElementById('tracker-calories').textContent = Math.round(exVal * 5.5);
+      document.getElementById('target-exercise-label').textContent = `Goal: ${goals.exerciseTarget} mins`;
+      document.getElementById('home-exercise-stat').textContent = `${exVal} min / ${goals.exerciseTarget} min goal`;
+      document.getElementById('home-exercise-bar').style.width = `${exPct}%`;
+      document.getElementById('tracker-exercise-type').value = todayLog.exerciseType;
+
+      // Mood
+      document.getElementById('tracker-mood-label').textContent = `State: ${todayLog.mood}`;
+      document.getElementById('tracker-mood-note').value = todayLog.moodNote || '';
+
+      // Score
+      const dayScore = Math.round(((waterPct + sleepPct + exPct) / 300) * 100);
+      document.getElementById('today-day-score').textContent = `${dayScore}%`;
+
+      // Save
+      localStorage.setItem('medicare_wellness_logs', JSON.stringify(logs));
+    }
+
+    function changeWater(delta) {
+      todayLog.waterGlasses = Math.max(0, todayLog.waterGlasses + delta);
+      renderTodayStats();
+      renderTrendChart();
+    }
+
+    function changeSleep(delta) {
+      todayLog.sleepHours = Math.max(0, Number((todayLog.sleepHours + delta).toFixed(1)));
+      renderTodayStats();
+      renderTrendChart();
+    }
+
+    function setSleepQuality(q) {
+      todayLog.sleepQuality = q;
+      document.querySelectorAll('.sq-btn').forEach(b => {
+        b.className = 'sq-btn py-1.5 text-[11px] font-medium rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300';
+      });
+      event.target.className = 'sq-btn py-1.5 text-[11px] font-bold rounded-lg bg-indigo-600 text-white';
+      renderTodayStats();
+    }
+
+    function changeExercise(delta) {
+      todayLog.exerciseMinutes = Math.max(0, todayLog.exerciseMinutes + delta);
+      renderTodayStats();
+      renderTrendChart();
+    }
+
+    function updateExerciseType(val) {
+      todayLog.exerciseType = val;
+      renderTodayStats();
+    }
+
+    function setMood(m) {
+      todayLog.mood = m;
+      renderTodayStats();
+    }
+
+    function updateMoodNote(val) {
+      todayLog.moodNote = val;
+      localStorage.setItem('medicare_wellness_logs', JSON.stringify(logs));
+    }
+
+    function loadDemoWeek() {
+      logs = JSON.parse(JSON.stringify(SAMPLE_LOGS));
+      todayLog = logs[logs.length - 1];
+      localStorage.setItem('medicare_wellness_logs', JSON.stringify(logs));
+      renderTodayStats();
+      renderTrendChart();
+      showToast('Sample Data Loaded', '7 days of demonstration habit logs restored.', 'info');
+    }
+
+    function resetTrackerData() {
+      todayLog.waterGlasses = 0;
+      todayLog.sleepHours = 7;
+      todayLog.exerciseMinutes = 0;
+      todayLog.mood = 'good';
+      todayLog.moodNote = '';
+      renderTodayStats();
+      renderTrendChart();
+      showToast('Reset Complete', 'Today entries cleared.', 'info');
+    }
+
+    function setChartMetric(metric) {
+      chartMetric = metric;
+      document.querySelectorAll('.cm-btn').forEach(b => {
+        b.className = 'cm-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900';
+      });
+      document.getElementById(`cm-${metric}`).className = 'cm-btn px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-teal-700 dark:text-teal-300 shadow-sm font-bold';
+      renderTrendChart();
+    }
+
+    function renderTrendChart() {
+      const container = document.getElementById('trend-bars-container');
+      if (!container) return;
+      const last7 = logs.slice(-7);
+      container.innerHTML = last7.map(l => {
+        let val = 0;
+        let label = '';
+        if (chartMetric === 'score') {
+          const w = Math.min(1, l.waterGlasses / goals.waterTarget);
+          const s = Math.min(1, l.sleepHours / goals.sleepTarget);
+          const e = Math.min(1, l.exerciseMinutes / goals.exerciseTarget);
+          val = Math.round(((w + s + e) / 3) * 100);
+          label = `${val}%`;
+        } else if (chartMetric === 'water') {
+          val = Math.min(100, Math.round((l.waterGlasses / goals.waterTarget) * 100));
+          label = `${l.waterGlasses} gl`;
+        } else if (chartMetric === 'sleep') {
+          val = Math.min(100, Math.round((l.sleepHours / goals.sleepTarget) * 100));
+          label = `${l.sleepHours}h`;
+        } else if (chartMetric === 'exercise') {
+          val = Math.min(100, Math.round((l.exerciseMinutes / goals.exerciseTarget) * 100));
+          label = `${l.exerciseMinutes}m`;
+        }
+
+        const dayName = new Date(l.date + 'T00:00:00').toLocaleDateString([], { weekday: 'short' });
+        return `
+          <div class="flex flex-col items-center h-full justify-end group">
+            <span class="text-[10px] font-bold text-slate-500 mb-1">${label}</span>
+            <div class="w-full max-w-[48px] bg-slate-100 dark:bg-slate-800 rounded-t-xl h-full flex flex-col justify-end p-1 overflow-hidden">
+              <div class="w-full rounded-t-lg bg-gradient-to-t from-teal-500 to-cyan-400 transition-all duration-500" style="height: ${Math.max(12, val)}%"></div>
+            </div>
+            <span class="text-[11px] font-semibold mt-2 text-slate-500">${dayName}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* ================= WELLNESS QUIZ ================= */
+    let quizVals = { water: 2, sleep: 2, activity: 2 };
+    function setQuizOpt(field, val) {
+      quizVals[field] = val;
+      const container = document.getElementById(`quiz-${field}-options`);
+      const btns = container.querySelectorAll('.quiz-btn');
+      btns.forEach((b, idx) => {
+        if (idx + 1 === val) {
+          b.className = 'quiz-btn py-2 px-2.5 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-md shadow-teal-500/30';
+        } else {
+          b.className = 'quiz-btn py-2 px-2.5 rounded-xl text-xs font-medium bg-white/10 text-slate-200 hover:bg-white/20';
+        }
+      });
+      calculateQuizScore();
+    }
+
+    function calculateQuizScore() {
+      const score = Math.round(((quizVals.water + quizVals.sleep + quizVals.activity) / 9) * 100);
+      const text = score >= 80 ? 'Optimal Habits! 🌟' : score >= 60 ? 'Solid Routine 👍' : 'Room to Hydrate & Rest 🌱';
+      document.getElementById('quiz-score-val').textContent = `${score}% — ${text}`;
+    }
+
+    /* ================= HEALTH LIBRARY ================= */
+    const CATEGORIES = [
+      { id: 'all', label: 'All Topics' },
+      { id: 'nutrition', label: 'Nutrition' },
+      { id: 'hydration', label: 'Hydration' },
+      { id: 'sleep', label: 'Sleep Hygiene' },
+      { id: 'activity', label: 'Physical Activity' },
+      { id: 'stress', label: 'Stress Management' },
+      { id: 'preventive', label: 'Preventive Care' }
+    ];
+
+    function renderLibraryCategories() {
+      const container = document.getElementById('library-category-pills');
+      if (!container) return;
+      container.innerHTML = CATEGORIES.map(c => `
+        <button onclick="setLibraryCategory('${c.id}')" class="lib-cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all ${selectedLibraryCategory === c.id ? 'bg-[#102A43] dark:bg-teal-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700'}">
+          ${c.label}
+        </button>
+      `).join('');
+    }
+
+    function setLibraryCategory(catId) {
+      selectedLibraryCategory = catId;
+      renderLibraryCategories();
+      renderLibraryArticles();
+    }
+
+    function filterLibraryArticles() {
+      renderLibraryArticles();
+    }
+
+    function renderLibraryArticles() {
+      const grid = document.getElementById('library-cards-grid');
+      if (!grid) return;
+      const term = (document.getElementById('library-search')?.value || '').toLowerCase();
+
+      const filtered = LIBRARY_ARTICLES.filter(a => {
+        const matchesCat = selectedLibraryCategory === 'all' || a.category === selectedLibraryCategory;
+        const matchesSearch = a.title.toLowerCase().includes(term) || a.summary.toLowerCase().includes(term) || a.keyTakeaway.toLowerCase().includes(term);
+        return matchesCat && matchesSearch;
+      });
+
+      document.getElementById('bookmark-counter').textContent = `${bookmarks.length} Bookmarked`;
+
+      grid.innerHTML = filtered.map(art => {
+        const isBmk = bookmarks.includes(art.id);
+        return `
+          <div onclick="openArticleModal('${art.id}')" class="group bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[11px] font-bold text-teal-700 dark:text-teal-400 uppercase tracking-wide">${art.categoryLabel}</span>
+                <button onclick="event.stopPropagation(); toggleBookmark('${art.id}')" class="p-1.5 rounded-lg text-slate-400 hover:text-teal-600">
+                  ${isBmk ? '★' : '☆'}
+                </button>
+              </div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-teal-600 transition-colors">${art.title}</h3>
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-2.5 line-clamp-3 leading-relaxed">${art.summary}</p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+              <span class="text-slate-400">${art.readTime}</span>
+              <span class="font-semibold text-teal-600 dark:text-teal-400 flex items-center gap-1">Read Guide &rarr;</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function toggleBookmark(artId) {
+      if (bookmarks.includes(artId)) {
+        bookmarks = bookmarks.filter(b => b !== artId);
+        showToast('Bookmark Removed', 'Article removed from saved favorites.', 'info');
+      } else {
+        bookmarks.push(artId);
+        showToast('Bookmarked', 'Article saved for quick access.', 'success');
+      }
+      localStorage.setItem('medicare_bookmarked_articles', JSON.stringify(bookmarks));
+      renderLibraryArticles();
+    }
+
+    /* ================= REMINDERS LOGIC ================= */
+    function renderReminders() {
+      const container = document.getElementById('reminders-list-container');
+      if (!container) return;
+      container.innerHTML = reminders.map(r => `
+        <div class="p-4 sm:p-5 rounded-2xl border transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${r.completed ? 'bg-slate-50/80 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 opacity-75' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800'}">
+          <div class="flex items-start gap-3.5 flex-1">
+            <button onclick="toggleReminderComplete('${r.id}')" class="mt-0.5 text-teal-600 text-lg cursor-pointer">
+              ${r.completed ? '✅' : '⚪'}
+            </button>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h4 class="text-sm font-bold ${r.completed ? 'line-through text-slate-400' : 'text-slate-900 dark:text-white'}">${r.title}</h4>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${r.categoryLabel}</span>
+                ${r.isPrescriptionMedication ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-700">Doctor Prescribed</span>' : ''}
+              </div>
+              ${r.notes ? `<p class="text-xs text-slate-500">${r.notes}</p>` : ''}
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-bold text-slate-800 dark:text-slate-200">⏰ ${r.time}</span>
+            <button onclick="simulateReminderAlert('${r.id}')" class="p-2 rounded-xl text-teal-600 hover:bg-teal-50" title="Simulate Sound Chime">🔔</button>
+            <button onclick="deleteReminder('${r.id}')" class="p-2 rounded-xl text-slate-400 hover:text-rose-600" title="Delete">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleReminderComplete(id) {
+      const rem = reminders.find(r => r.id === id);
+      if (rem) {
+        rem.completed = !rem.completed;
+        localStorage.setItem('medicare_health_reminders', JSON.stringify(reminders));
+        renderReminders();
+        if (rem.completed) playChime();
+      }
+    }
+
+    function deleteReminder(id) {
+      reminders = reminders.filter(r => r.id !== id);
+      localStorage.setItem('medicare_health_reminders', JSON.stringify(reminders));
+      renderReminders();
+      showToast('Deleted', 'Reminder removed.', 'info');
+    }
+
+    function simulateReminderAlert(id) {
+      const rem = reminders.find(r => r.id === id);
+      if (rem) {
+        playChime();
+        showToast(`🔔 Reminder: ${rem.title}`, `Scheduled for ${rem.time}. ${rem.notes || 'Time to complete your habit!'}`, 'info');
+      }
+    }
+
+    function handleReminderFormSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('rem-input-title').value;
+      const cat = document.getElementById('rem-input-category').value;
+      const time = document.getElementById('rem-input-time').value;
+      const notes = document.getElementById('rem-input-notes').value;
+      const catLabels = { water: 'Hydration', activity: 'Physical Activity', bedtime: 'Bedtime Routine', wellness: 'General Wellness', medication: 'Prescription Medication' };
+
+      reminders.push({
+        id: 'rem-' + Date.now(),
+        title,
+        category: cat,
+        categoryLabel: catLabels[cat],
+        time,
+        completed: false,
+        notes,
+        isPrescriptionMedication: cat === 'medication'
+      });
+      localStorage.setItem('medicare_health_reminders', JSON.stringify(reminders));
+      closeReminderModal();
+      renderReminders();
+      showToast('Reminder Created', `Scheduled "${title}" at ${time}.`, 'success');
+    }
+
+    /* ================= FIRST AID LOGIC ================= */
+    let expandedFirstAid = 'fa-breathing';
+    function toggleFirstAid(id) {
+      expandedFirstAid = expandedFirstAid === id ? '' : id;
+      renderFirstAidTopics();
+    }
+
+    function renderFirstAidTopics() {
+      const container = document.getElementById('firstaid-cards-container');
+      if (!container) return;
+      container.innerHTML = FIRST_AID_TOPICS.map(t => {
+        const isOpen = expandedFirstAid === t.id;
+        return `
+          <div class="rounded-3xl border ${isOpen ? 'bg-white dark:bg-slate-900 border-teal-500/60 shadow-lg' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800'} overflow-hidden transition-all">
+            <button onclick="toggleFirstAid('${t.id}')" class="w-full p-5 sm:p-6 text-left flex items-start sm:items-center justify-between gap-4 cursor-pointer">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">${t.title}</h3>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${t.severity === 'critical' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800'} uppercase">${t.severity}</span>
+                </div>
+                <p class="text-xs text-slate-600 dark:text-slate-400">${t.shortDesc}</p>
+              </div>
+              <span class="text-slate-400 font-bold text-sm">${isOpen ? '▲' : '▼'}</span>
+            </button>
+
+            ${isOpen ? `
+              <div class="px-5 sm:px-6 pb-6 pt-2 border-t border-slate-100 dark:border-slate-800 space-y-6 text-xs sm:text-sm">
+                ${t.emergencyWarning ? `
+                  <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 text-rose-950 dark:text-rose-100 text-xs">
+                    <strong>Urgent Directive:</strong> ${t.emergencyWarning}
+                  </div>
+                ` : ''}
+
+                <div class="space-y-2">
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">Immediate Action Steps:</h4>
+                  ${t.steps.map((st, i) => `
+                    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-start gap-3">
+                      <span class="w-5 h-5 rounded-full bg-teal-600 text-white font-bold text-xs flex items-center justify-center shrink-0">${i+1}</span>
+                      <span class="text-xs leading-relaxed">${st}</span>
+                    </div>
+                  `).join('')}
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 text-emerald-950 dark:text-emerald-100 text-xs space-y-1">
+                    <strong class="text-emerald-800 dark:text-emerald-300 block mb-1">DO:</strong>
+                    ${t.dos.map(d => `<div>• ${d}</div>`).join('')}
+                  </div>
+                  <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 text-rose-950 dark:text-rose-100 text-xs space-y-1">
+                    <strong class="text-rose-800 dark:text-rose-300 block mb-1">DO NOT:</strong>
+                    ${t.donts.map(d => `<div>• ${d}</div>`).join('')}
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* ================= 1-CLICK SELF DOWNLOAD ================= */
+    async function downloadSelfHTML() {
+      try {
+        const response = await fetch('/index.html');
+        let htmlText = '';
+        if (response.ok) {
+          htmlText = await response.text();
+        } else {
+          htmlText = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        }
+        const blob = new Blob([htmlText], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Download Complete', 'index.html has been saved to your Downloads folder.', 'success');
+      } catch (err) {
+        const htmlText = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        const blob = new Blob([htmlText], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Download Complete', 'index.html has been saved to your Downloads folder.', 'success');
+      }
+    }
+  </script>
+</body>
 </html>
