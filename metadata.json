@@ -1,0 +1,6 @@
+{
+  "name": "MediCare AI — Your Personal Health Companion",
+  "description": "A comprehensive healthcare and wellness platform featuring an AI health assistant, daily habit tracking, health education library, and first-aid guide.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
